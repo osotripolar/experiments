@@ -9,12 +9,68 @@ body{
 
 .container{
     max-width: 90%;
-    background-color: red;
+    /* background-color: red; */
     margin: auto;
 }
 
 main{
     width: 100%;
-    background-color: blue;
+    /* background-color: blue; */
     flex: 1;
+}
+
+/* ===== TITLE ===== */
+
+.title{
+    text-align: center;
+}
+
+/* ===== CARDS ===== */
+
+.cards-container{
+    /* background-color: green;> */
+    width: 100%;
+}
+
+.card{
+    padding: 25px;
+    width: 25%;
+    border-radius: 20px;
+    background-color: whitesmoke;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);   
+}
+
+.card h4{
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-size: 24px;
+}
+
+.card p{
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+.card-link{
+    text-decoration: none;
+    background-color: rgb(1, 80, 155);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    height: 28px;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.card h5{
+    margin: 0;
+}
+
+.card span a{
+    text-decoration: none;
+    color: rgb(1, 80, 155);
 }
