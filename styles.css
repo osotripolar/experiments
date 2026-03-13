@@ -1,0 +1,20 @@
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI';
+    min-height: 100dvh;
+    align-items: center;
+}
+
+.container{
+    max-width: 90%;
+    background-color: red;
+    margin: auto;
+}
+
+main{
+    width: 100%;
+    background-color: blue;
+    flex: 1;
+}
