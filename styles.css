@@ -30,6 +30,8 @@ main{
 .cards-container{
     /* background-color: green;> */
     width: 100%;
+    display: flex;
+    gap: 30px;
 }
 
 .card{
@@ -37,21 +39,26 @@ main{
     width: 25%;
     border-radius: 20px;
     background-color: whitesmoke;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);   
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    height: 500px;
+    display: flex;
+    flex-direction: column;
 }
 
-.card h4{
+.card__title{
     margin: 0 0 12px 0;
     text-align: center;
     font-size: 24px;
 }
 
-.card p{
+.card__text{
+    background-color: #fff;
     margin: 0 0 15px 0;
+    height: 120px;
     text-align: center;
 }
 
-.card-link{
+.card__link{
     text-decoration: none;
     background-color: rgb(1, 80, 155);
     color: white;

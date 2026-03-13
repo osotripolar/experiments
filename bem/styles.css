@@ -1,0 +1,112 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #555;
+    min-height: 100dvh;
+    width: 100dvw;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 85px;
+    align-items: center;
+    justify-content: center;
+    font-family: Verdana;
+    color: white;
+}
+
+main{
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #222;
+    padding: 30px;
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* BUTTONS */
+
+.container-buttons{
+    margin: 40px 0;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.button{
+    padding: 10px 20px;
+    border-radius: 15px;
+    color: white;
+    background-color: green;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button--transparent{
+    background-color: transparent;
+    border: 2px solid green;
+    color: green;
+}
+
+/* CARDS */
+
+.container-cards{
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.card{
+    height: 250px;
+    width: 450px;
+    padding: 15px;
+    background-color: goldenrod;
+    display: flex;
+    text-align: start;
+    color: black;
+}
+
+.card__content{
+    flex: 0 0 65%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.card__title{
+    margin: 0;
+}
+
+.card__text{
+    font-size: 15px;
+}
+
+.card__image-container{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items:end;
+    
+}
+
+.card__image{
+    width:  100%;
+    height: auto;
+}
+
+/* modifiers */
+.card--blue{
+    background-color: #0a4379;
+    color: white;
+}
+
+.card__image--small{
+    width:  70%;
+}
