@@ -1,0 +1,90 @@
+
+:root {
+    --color-title: rgb(21, 21, 21);
+    --color-text: rgb(64, 64, 64);
+    --color-bg: white;
+    
+    --color-nav-bg: #151515;
+    --color-nav-text: white;
+}
+
+*{
+    box-sizing: border-box;
+    font-family: Verdana;
+}
+
+body{
+    margin: 0;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: all 0.5s;
+}
+
+.dark{
+    --color-title: rgb(223, 223, 227);
+    --color-text: rgb(223, 223, 227);
+    --color-bg: rgba(31, 31, 34);
+    
+    --color-nav-bg:rgba(27, 27, 29);
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: var(--color-title);
+}
+
+
+/*  */
+
+
+input{
+    display: none;
+}
+
+
+.label-toogle{
+    font-size: 30px;
+    cursor: pointer;
+}
+
+nav{
+    display: flex;
+    background-color: var(--color-nav-bg);
+    color: var(--color-nav-text);
+}
+
+.nav-logo{
+    flex: 1;
+    text-align: center;
+}
+
+
+.theme-container{
+    flex: 0 0 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.container{
+    max-width: 90%;
+    width: 1420px;
+    margin: auto;
+}
+
+.logo{
+    color: var(--color-nav-text)
+}
+
+/*  */
+
+main{
+    text-align: center;
+}
+
+
+.message{
+    padding: 8px;
+    border-radius: 15px;
+}
