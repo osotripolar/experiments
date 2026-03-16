@@ -59,34 +59,37 @@
     <!-- FOOTER -->
 
     <footer>
-        <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
     </footer>
 
     <!-- MODALS -->
 
-    <!-- <div class="container-modal" id="modalEditNote">
+    <div class="container-modal" id="modalEditLists">
         <div class="modal">
-            <h1>Editar Nota</h1>
+            <h1>Administrar Listas</h1>
             <div class="form">
-                <label for="inputEditNote">Editar:</label>
-                <input type="text" id="inputEditNote">
+                <p>Id List: </p> <p id="modalEditIdList">-</p> 
+                <button id="createList" >New List</button>
+                <button id="updateList" disabled>Actualizar</button>
+                <button id="deleteList" disabled>Borrar Lista</button>
                 <br>
-                <select name="" id=""></select>
+                <select name="" id="selectOptionsEditLists">
+
+                </select>
+                <label for="inputEditList">Nueva Lista :</label>
+                <input type="text" id="inputEditList">
             </div>
-            <button id="closeModalEditNote">cerrar</button>
+            <button id="closeModalEditLists" style="margin-top: auto;">Cerrar</button>
         </div>
-    </div> -->
+    </div>
+
+
 
     <div class="container-modal" id="modalEditNote">
         <div class="modal">
             <h1>Editar Nota</h1>
 
             <div class="form">
+                <p>Id Note: </p> <p id="modalEditIdNote"></p>
                 <label for="inputEditNote">Editar:</label>
                 <input type="text" id="inputEditNote">
                 <br>
@@ -96,7 +99,7 @@
             </div>
             
             <div class="modal-buttons" style="margin-top: auto;">
-                <button id="">Actualizar</button>
+                <button id="updateNote">Actualizar</button>
                 <button id="closeModalEditNote">cerrar</button>
             </div>
 

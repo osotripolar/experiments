@@ -1,8 +1,7 @@
-import { getNotes , getLists , postNote } from "./dataService.js";
+import { getLists , deleteList , postList, updateList , getNotes  , postNote , updateNote , deleteNote} from "./dataService.js";
 
 let localNotes
 let localLists
-
 let activeButton
 
 const notesContainer = document.getElementById('notesContainer')
@@ -11,15 +10,25 @@ const addNoteBtn = document.getElementById('addNoteBtn')
 const inputNote = document.getElementById('inputNote')
 const btnLists = document.getElementById('btnLists')
 const noteTemplate = document.getElementById('noteTemplate')
+const btnListEdit = document.getElementById('btnListEdit')
 
 // moda editar nota
 const containerModalEditNote = document.getElementById('modalEditNote')
 const closeModalEditNote = document.getElementById('closeModalEditNote')
 const selectOptionsEditNotes = document.getElementById('listOptionsModalEditNote')
 const inputEditNote = document.getElementById('inputEditNote')
+const updateNoteButton = document.getElementById('updateNote')
+const spanId = document.getElementById('modalEditIdNote')
 
-// const btnListEdit = document.getElementById('btnListEdit')
-
+// modal edit listas
+const closeModalEditLists = document.getElementById('closeModalEditLists')
+const modalEditLists = document.getElementById('modalEditLists')
+const selectOptionsEditLists = document.getElementById('selectOptionsEditLists')
+const inputEditList = document.getElementById('inputEditList')
+const modalEditIdList = document.getElementById('modalEditIdList')
+const btnUpdateList = document.getElementById('updateList')
+const btnDeleteList = document.getElementById('deleteList')
+const btnCreateList = document.getElementById('createList')
 
 // ================= LISTENERS
 
@@ -52,25 +61,124 @@ notesContainer.addEventListener('click',(e)=>{
     if(e.target.classList.contains('btn--edit')){
         openEditModal(e)
     }
+
+    if(e.target.classList.contains('btn--delete')){
+
+        const idNote = e.target.closest('li').dataset.id
+
+        deleteNote(idNote)
+        init()
+    }
     
 })
+
+// ================= MODALS
+
+btnCreateList.addEventListener('click',()=>{
+
+    if(!inputEditList.value) return
+    
+    const newListName = inputEditList.value 
+
+    postList(newListName)
+    closeModalEditLists.click()
+    init()
+})
+
+btnUpdateList.addEventListener('click',async()=>{
+
+    const newListData = {
+        id: modalEditIdList.textContent,
+        title: inputEditList.value
+    }
+
+    await updateList(newListData)
+    closeModalEditLists.click()
+    init()
+
+    
+})
+
+btnDeleteList.addEventListener('click',async()=>{
+    const idList = modalEditIdList.textContent
+    await deleteList(idList)
+    closeModalEditLists.click()
+    init()
+})
+
+btnListEdit.addEventListener('click',()=>{
+    modalEditLists.classList.add('show')
+})
+
+closeModalEditLists.addEventListener('click',(e)=>{
+    const label = modalEditLists.querySelector('label')
+    selectOptionsEditLists.value = ''
+            // normalizamos 
+            modalEditIdList.textContent = '-'
+            btnCreateList.removeAttribute('disabled')
+            btnUpdateList.setAttribute('disabled','') 
+            btnDeleteList.setAttribute('disabled','')
+            label.textContent = 'Nueva Lista'
+            inputEditList.value = ''
+    modalEditLists.classList.remove('show')
+})
+
+// 
 
 closeModalEditNote.addEventListener('click',(e)=>{
     containerModalEditNote.classList.remove('show')
 })
 
-// ================= MODALS
+updateNoteButton.addEventListener('click',async()=>{
+
+    const idNewNote = spanId.textContent
+    const newText = inputEditNote.value
+    const newIdList = selectOptionsEditNotes.value
+
+    const newData = {
+        id: idNewNote,
+        content : newText,
+        list_id : newIdList === "" ? null : newIdList
+    }
+
+    await updateNote(newData)
+
+    closeModalEditNote.click()
+    init()
+
+})
+
+document.addEventListener('keydown',(e)=>{
+    if(containerModalEditNote.classList.contains('show')){
+        if(e.key === 'Escape'){
+            closeModalEditNote.click()
+        }
+    }
+    if(modalEditLists.classList.contains('show')){
+        if(e.key === 'Escape'){
+            closeModalEditLists.click()
+        }
+    }
+}) // atajo para cerrar el modal
 
 function openEditModal(e){
 
     const li = e.target.closest('li')
-    const text = li.querySelector('p').textContent
+    const noteText = li.querySelector('p').textContent
+    const noteId = li.dataset.id
+    const noteListId =  li.dataset.idList
 
-    inputEditNote.value = text
+    spanId.textContent = noteId
+    inputEditNote.value = noteText
     inputEditNote.focus()
+    inputEditNote.select()
+
+
+    if(noteListId){
+        const option = selectOptionsEditNotes.querySelector(`option[value="${noteListId}"]`)
+        option.selected = true
+    }
     
-    console.log(li)
-    console.log(text)
     containerModalEditNote.classList.add('show')
 }
 
@@ -84,6 +192,8 @@ function render(notes = undefined){
 
     // modal - edit note
     fillSelectOptionsModalEditNotes()
+    // modal - edit note
+    fillSelectOptionsModalEditLists()
     
 }
 
@@ -125,14 +235,15 @@ function fillNotes(filteredNotes = undefined){
         
         dataFilter.forEach(note =>{
 
-            const notexxx = noteTemplate.content.cloneNode(true)
-            const pNote = notexxx.querySelector('p')
-            const liNote = notexxx.querySelector('li')
+            const noteContent = noteTemplate.content.cloneNode(true)
+            const pNote = noteContent.querySelector('p')
+            const liNote = noteContent.querySelector('li')
 
             pNote.textContent = note.content
             liNote.dataset.id = note.id
+            if(note.list_id) liNote.dataset.idList = note.list_id
             
-            fragment.appendChild(notexxx)
+            fragment.appendChild(noteContent)
         })
 
     }else{
@@ -167,6 +278,52 @@ function fillSelectOptions(){
     })
     
     selectOptions.appendChild(fragment)
+}
+
+function fillSelectOptionsModalEditLists(){
+
+    selectOptionsEditLists.innerHTML=''
+
+    const fragment = document.createDocumentFragment()
+    const xd = el('option',undefined,'Sin Lista')
+    xd.value = ''
+    fragment.appendChild(xd)
+
+    localLists.forEach( list =>{
+        
+        const optionEl = el('option',undefined,list.title)
+        optionEl.value = list.id
+
+        fragment.appendChild(optionEl)
+
+    }) 
+
+    selectOptionsEditLists.appendChild(fragment)
+
+    selectOptionsEditLists.addEventListener('change',()=>{
+
+        const idList = selectOptionsEditLists.value
+        const label = modalEditLists.querySelector('label')
+
+        if(idList) {
+            const nameList = selectOptionsEditLists.querySelector(`[value="${idList}"]`).textContent
+            inputEditList.value = nameList
+            modalEditIdList.textContent = idList
+            // remover disabled
+            btnUpdateList.removeAttribute('disabled') 
+            btnDeleteList.removeAttribute('disabled')
+            btnCreateList.setAttribute('disabled','') 
+            label.textContent = 'Editar Lista'
+        }else{
+            modalEditIdList.textContent = '-'
+            btnCreateList.removeAttribute('disabled')
+            btnUpdateList.setAttribute('disabled','') 
+            btnDeleteList.setAttribute('disabled','')
+            label.textContent = 'Nueva Lista'
+        }
+
+    })
+
 }
 
 function fillSelectOptionsModalEditNotes(){
@@ -228,7 +385,6 @@ function el(tag, className = undefined, text = undefined){
 async function initializeData() {
 
     try{
-
         [
             localLists,
             localNotes

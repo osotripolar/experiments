@@ -2,13 +2,13 @@
 // DUMMY DATA
 
 let countId = 6
+let countIdLIst = 4
 
-const notes = [
+let notes = [
     {
         "id" : 1,
         "list_id": null,
-        "content": "primera nota - primera nota - primera nota - primera nota - primera nota - primera nota - primera nota"
-        // "content": "primera nota"
+        "content": "primera nota"
     },
     {
         "id" : 2,
@@ -37,7 +37,7 @@ const notes = [
     }
 ]
 
-const lists = [
+let lists = [
     {
         "id" : "1",
         "title" : "grupo a"
@@ -62,7 +62,18 @@ function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// FAKE FETCH
+// FAKE FETCH : NOTES
+
+export async function updateNote(newNote){
+
+    const index = notes.findIndex(note => note.id == newNote.id)
+
+    if(index == -1){
+        console.log('algo falló')
+    }else{
+        notes[index] = newNote
+    }
+}
 
 export async function postNote(note){
 
@@ -81,9 +92,65 @@ export async function getNotes(){
     return [...notes]
 }
 
+export async function deleteNote(idNote){
+    
+    const index = notes.findIndex(note => note.id == idNote)
+
+    if(index == -1){
+        console.log('algo falló')
+    }else{
+        notes.splice(index,1)
+    }
+
+}
+
+// FAKE FETCH: LISTS
+
+export async function updateList(newList){
+
+    const index = lists.findIndex(list => list.id == newList.id)
+
+    if(index == -1){
+        console.log('algo falló')
+    }else{
+        lists[index] = newList
+    }
+
+}
+
 export async function getLists(){
 
     await delay(300)
     
     return [...lists]
+}
+
+export async function deleteList(idList) {
+
+    
+    const index = lists.findIndex(list => list.id == idList)
+
+    if(index == -1){
+        console.log('algo falló')
+    }else{
+        lists.splice(index,1)
+    }
+
+    // tambien borramos sus notas asociadas
+    notes = notes.filter(note => note.list_id != idList);
+
+
+}
+
+export async function postList(listName) {
+
+    countIdLIst++
+
+    const newList = {
+        id : countIdLIst,
+        title : listName
+    }
+
+    lists.push(newList)
+
 }
