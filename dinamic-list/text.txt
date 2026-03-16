@@ -1,0 +1,6 @@
+select html
+promises all
+map
+filter
+delegacion de eventos
+operador logico || y ternario :
