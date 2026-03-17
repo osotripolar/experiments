@@ -1,39 +1,20 @@
-
 // DUMMY DATA
-
-let countId = 6
-let countIdLIst = 4
 
 let notes = [
     {
         "id" : 1,
-        "list_id": null,
-        "content": "primera nota"
+        "list_id": 1,
+        "content": "nota en A"
     },
     {
         "id" : 2,
-        "list_id": null,
-        "content": "segunda nota"
+        "list_id": 2,
+        "content": "nota en B"
     },
     {
         "id" : 3,
-        "list_id": 1,
-        "content": "tercera nota"
-    },
-    {
-        "id" : 4,
-        "list_id": 2,
-        "content": "cuarta nota"
-    },
-    {
-        "id" : 5,
         "list_id": null,
-        "content": "quinta nota"
-    },
-    {
-        "id" : 6,
-        "list_id": null,
-        "content": "sexta nota"
+        "content": "nota suelta"
     }
 ]
 
@@ -45,16 +26,11 @@ let lists = [
     {
         "id" : "2",
         "title" : "grupo b"
-    },
-    {
-        "id" : "3",
-        "title" : "grupo c"
-    },
-    {
-        "id" : "4",
-        "title" : "grupo d"
-    },
+    }
 ]
+
+let countIdNotes = notes.length
+let countIdList = lists.length
 
 // AUXILIAR FUNCTIONS
 
@@ -79,8 +55,8 @@ export async function postNote(note){
 
     await delay(300)
 
-    countId++
-    const newNote =  {...note, id : countId}
+    countIdNotes++
+    const newNote =  {...note, id : countIdNotes}
 
     notes.push(newNote)
 }
@@ -144,10 +120,10 @@ export async function deleteList(idList) {
 
 export async function postList(listName) {
 
-    countIdLIst++
+    countIdList++
 
     const newList = {
-        id : countIdLIst,
+        id : countIdList,
         title : listName
     }
 

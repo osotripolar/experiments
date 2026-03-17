@@ -27,31 +27,51 @@
 
     <main>
         <div class="container container-main">
-            
-            <h1>Lista Dinámica </h1>
 
-            <button id="btnListEdit">Administrar Listas</button>
-
-            <p>En este ejercicio creamos un bloc de notas dinámico dónde podemos clasificar por Listas, a su vez estas también son dinámicas</p>
+            <!-- encabezado -->
+            <div class="main-header">
+                <h1>Lista Dinámica </h1>
+                <p>En este ejercicio creamos un bloc de notas dinámico dónde podemos clasificar por Listas, a su vez estas también son dinámicas</p>
+    
+                <button id="btnListEdit">Administrar Listas</button>
+            </div>
             
+            
+            <!-- from -->
             <div class="form">
-                <label for="inputNote">Nueva Nota</label>
-                <input type="text" id="inputNote">
-                <select name="Lists" id="listOptions">
-                    <option value="" selected>Seleccione una lista</option>
-                </select>
-                <button id="addNoteBtn">Send</button>
+                <div class="form__text-group">
+                    <label for="inputNote">Nota:</label>
+                    <input type="text" id="inputNote" placeholder="Nueva Nota...">
+                </div>
+                <div class="form__option-group">
+                    <label for="listOptions">Lista:</label>
+                    <select name="Lists" id="listOptions">
+                        <option value="" selected>Seleccione una lista</option>
+                    </select>
+                    <button id="addNoteBtn" class="btn--success">Add Note</button>
+                </div>
             </div>
             
-            <div class="lists" id="btnLists">
-                <button class="btnActive"> All </button>
+            <!-- botones list -->
+            <div class="buttons-lists-container" id="btnListsAll">
+                <div class="buttons-lists__group">
+                    <button class="btnActive" id="btnAll"> All </button>
+                    <button id="btnNoList" data-id="0"> No List </button>
+                </div>
+                <div class="buttons-lists__group" id="btnLists">
+                    <button> Uno </button>
+                    <button> Dos </button>
+                    <button> Tres </button>
+                    <button> Dos </button>
+                </div>
             </div>
             
-            <div class="notes" id="notesContainer">
-                <ul class>
+            <!-- notas -->
+            <ul class="notes-container" id="notesContainer">
+                <li class="note">
                     <p class="italic">Vacío: inserte una nota</p>
-                </ul>
-            </div>
+                </li>
+            </ul>
 
         </div>
     </main>
@@ -72,7 +92,7 @@
                 <button id="updateList" disabled>Actualizar</button>
                 <button id="deleteList" disabled>Borrar Lista</button>
                 <br>
-                <select name="" id="selectOptionsEditLists">
+                <select name="" id="selectModalLists">
 
                 </select>
                 <label for="inputEditList">Nueva Lista :</label>
@@ -81,8 +101,6 @@
             <button id="closeModalEditLists" style="margin-top: auto;">Cerrar</button>
         </div>
     </div>
-
-
 
     <div class="container-modal" id="modalEditNote">
         <div class="modal">
@@ -112,7 +130,7 @@
 
         <li class="note">
             <p>Vacío: inserte una nota</p>
-            <div class="btnActions">
+            <div class="note__btnActions">
                 <button class="btn--edit">
                     <i class="bi bi-pencil"></i>
                 </button>

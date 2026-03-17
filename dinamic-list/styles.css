@@ -1,51 +1,88 @@
+/* =============== VARIABLES */
+
 :root{
     --color-primary: rgb(1, 50, 155);
+    --color-primary-intense: color-mix(in srgb, var(--color-primary) 50%, rgb(0,0,0));
+    --color-primary-ligth: color-mix(in srgb, var(--color-primary) 10%, rgb(255,255,255));
+    
+    --color-success: rgb(7, 120, 26);
+    --color-danger: rgb(150, 0, 0);
+
+
+    /* de este para abajo esta ok */
+    --color-ligth: rgb(255,255,255);
+    --color-ligth-1: rgb(240,240,240);
 }
 
 *{
     box-sizing: border-box;
+    font-family: 'Segoe UI';
 }
 
 body{
-    font-family: 'Segoe UI';
-    margin: 0;
     display: flex;
     flex-direction: column;
-    width: 100%;
     min-height: 100dvh;
+    width: 100%;
+    margin: 0;
+
+    background-color: var(--color-ligth-1);
 }
+
+/* =============== ESTILOS GENERALES */
 
 button{
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
+    padding: 5px 5px;
+    
     background-color: var(--color-primary);
-    color: white;
-    padding: 5px 20px;
+    color: var(--color-ligth);
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-select{
-    
-    font-family: inherit;
+button:disabled{
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 a{
     text-decoration: none;
 }
 
-.container{
-    width: 1420px;
-    margin: auto;
-    max-width: 95%;
-}
-
 ul{
     padding: 0;
 }
 
-/* SECCIONES */
-/*  */
+.container{
+    width: 1420px;
+    max-width: 95%;
+    margin: auto;
+}
+
+/* buttons */
+
+.btnActive{
+    background-color: var(--color-primary-intense);
+}
+
+.btn--success{
+    background-color: var(--color-success);
+}
+
+.btn--delete{
+    background-color: var(--color-danger);
+    padding: 5px 8px;
+}
+
+.btn--edit{
+    padding: 5px 8px;
+    background-color: rgb(80, 80, 80);
+}
+
+/* =============== SECCIONES */
+
+/* nav */
 
 nav{
     height: 80px;
@@ -59,62 +96,31 @@ nav{
     height: 100%;
 }
 
-nav h1 a{
-    color: white;
+nav a{
+    color: var(--color-ligth);
 }
 
+/* main */
 
-/*  */
 main{
     flex: 1;
     text-align: center;
 }
 
-.notes{
-    text-align: start;
+.main-header{
+    margin-bottom: 16px;
+}
 
+.main-header button{
+    background-color: rgb(0, 0, 0);
+    padding: 5px 10px;
 }
 
 
-.note{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid black;
-    padding: 4px 0;
-}
-
-.note p{
-    margin: 0;
-}
-
-.note:hover{
-    background-color: #ddd;
-}
-
-.btnActive{
-    background-color: gray;
-}
+/* =============== ELEMENTOS */
 
 
-.btnActions{
-    /* width: 50px; */
-    /* background-color: green; */
-    display: flex;
-    gap: 6px;
-}
-
-.btn--delete{
-    background-color: rgb(160, 12, 12);
-    padding: 5px 8px;
-}
-
-.btn--edit{
-    padding: 5px 8px;
-    background-color: rgb(80, 80, 80);
-}
-
-/* MODALDS */
+/* modal */
 
 .container-modal{
     position: fixed;
@@ -138,10 +144,10 @@ main{
 .modal{
     max-width: 90%;
     max-height: 80%;
-    width: 500px;
-    height: 600px;
+    width: 600px;
+    height: 550px;
     background-color: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 20px;
     box-shadow: 0 0 8px rgba(100, 100, 100, 1);
     display: flex;
@@ -151,15 +157,100 @@ main{
 i{
     pointer-events: none;
 }
+/* form */
 
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    background-color: var(--color-ligth);
+    box-shadow: 0 3px 6px rgba( 0, 0, 0 , 0.2);
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.form__text-group{
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.form__text-group input{
+    flex: 1;
+}
+
+.form__option-group{
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.form__option-group select{
+    flex: 1;
+}
+
+
+/* notes */
+
+.notes-container{
+    background-color: var(--color-ligth);
+    box-shadow: 0 3px 6px rgba( 0, 0, 0 , 0.2);
+    border-radius: 5px;
+}
+
+.notes-container > *:not(:last-child){
+    border-bottom: 1px solid black;
+}
+
+.note{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 5px 10px 5px;
+
+}
+
+.note:hover{
+    background-color: var(--color-primary-ligth);
+}
+
+.note p{
+    margin: 0;
+}
+
+.note__btnActions{
+    display: flex;
+    gap: 6px;
+}
+
+/* button lists */
+
+.buttons-lists-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    
+}
+
+.buttons-lists__group{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+}
+
+.buttons-lists__group button{
+    padding: 5px 10px;
+}
+
+/* =============== EXTRAS: (inspirados en Bootstrap) */
 
 .italic{
     font-style: italic;
-}
-
-button:disabled{
-    background-color: #646464;
-    cursor: not-allowed;
-    opacity: 0.6;
-
 }

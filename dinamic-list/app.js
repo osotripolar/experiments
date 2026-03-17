@@ -11,10 +11,13 @@ const inputNote = document.getElementById('inputNote')
 const btnLists = document.getElementById('btnLists')
 const noteTemplate = document.getElementById('noteTemplate')
 const btnListEdit = document.getElementById('btnListEdit')
+const btnListsAll = document.getElementById('btnListsAll')
+const btnAll = document.getElementById('btnAll')
+const btnNoList = document.getElementById('btnNoList')
 
 // moda editar nota
 const containerModalEditNote = document.getElementById('modalEditNote')
-const closeModalEditNote = document.getElementById('closeModalEditNote')
+const closeModalNote = document.getElementById('closeModalEditNote')
 const selectOptionsEditNotes = document.getElementById('listOptionsModalEditNote')
 const inputEditNote = document.getElementById('inputEditNote')
 const updateNoteButton = document.getElementById('updateNote')
@@ -23,7 +26,7 @@ const spanId = document.getElementById('modalEditIdNote')
 // modal edit listas
 const closeModalEditLists = document.getElementById('closeModalEditLists')
 const modalEditLists = document.getElementById('modalEditLists')
-const selectOptionsEditLists = document.getElementById('selectOptionsEditLists')
+const selectModalLists = document.getElementById('selectModalLists')
 const inputEditList = document.getElementById('inputEditList')
 const modalEditIdList = document.getElementById('modalEditIdList')
 const btnUpdateList = document.getElementById('updateList')
@@ -34,24 +37,6 @@ const btnCreateList = document.getElementById('createList')
 
 inputNote.addEventListener('keydown',(e) =>{
     if(e.key === 'Enter') addNoteBtn.click()
-})
-
-addNoteBtn.addEventListener('click',()=>{
-
-    if(!inputNote.value) return
-
-    const newNote = {
-        content : inputNote.value,
-        list_id : selectOptions.value === "" ? null : selectOptions.value
-    }
-    
-    postNote(newNote)
-    
-    // limpiamos el input
-    inputNote.value = ''
-
-    init()
-
 })
 
 notesContainer.addEventListener('click',(e)=>{
@@ -72,7 +57,52 @@ notesContainer.addEventListener('click',(e)=>{
     
 })
 
-// ================= MODALS
+btnListsAll.addEventListener('click',filterViewByList)
+
+// modal note
+
+addNoteBtn.addEventListener('click',()=>{
+
+    if(!inputNote.value) return
+
+    const newNote = {
+        content : inputNote.value,
+        list_id : selectOptions.value === "" ? null : selectOptions.value
+    }
+    
+    postNote(newNote)
+    
+    // limpiamos el input
+    inputNote.value = ''
+
+    init()
+
+})
+
+updateNoteButton.addEventListener('click',async()=>{
+
+    const idNewNote = spanId.textContent
+    const newText = inputEditNote.value
+    const newIdList = selectOptionsEditNotes.value
+
+    const newData = {
+        id: idNewNote,
+        content : newText,
+        list_id : newIdList === "" ? null : newIdList
+    }
+
+    await updateNote(newData)
+
+    closeModalNote.click()
+    init()
+
+})
+
+closeModalNote.addEventListener('click',(e)=>{
+    containerModalEditNote.classList.remove('show')
+})
+
+// modal list
 
 btnCreateList.addEventListener('click',()=>{
 
@@ -95,7 +125,6 @@ btnUpdateList.addEventListener('click',async()=>{
     await updateList(newListData)
     closeModalEditLists.click()
     init()
-
     
 })
 
@@ -110,48 +139,16 @@ btnListEdit.addEventListener('click',()=>{
     modalEditLists.classList.add('show')
 })
 
-closeModalEditLists.addEventListener('click',(e)=>{
-    const label = modalEditLists.querySelector('label')
-    selectOptionsEditLists.value = ''
-            // normalizamos 
-            modalEditIdList.textContent = '-'
-            btnCreateList.removeAttribute('disabled')
-            btnUpdateList.setAttribute('disabled','') 
-            btnDeleteList.setAttribute('disabled','')
-            label.textContent = 'Nueva Lista'
-            inputEditList.value = ''
+closeModalEditLists.addEventListener('click',()=>{
+    setDefaultOptionsModalLists()
     modalEditLists.classList.remove('show')
 })
 
-// 
-
-closeModalEditNote.addEventListener('click',(e)=>{
-    containerModalEditNote.classList.remove('show')
-})
-
-updateNoteButton.addEventListener('click',async()=>{
-
-    const idNewNote = spanId.textContent
-    const newText = inputEditNote.value
-    const newIdList = selectOptionsEditNotes.value
-
-    const newData = {
-        id: idNewNote,
-        content : newText,
-        list_id : newIdList === "" ? null : newIdList
-    }
-
-    await updateNote(newData)
-
-    closeModalEditNote.click()
-    init()
-
-})
-
+// atajos para cerrar el modal
 document.addEventListener('keydown',(e)=>{
     if(containerModalEditNote.classList.contains('show')){
         if(e.key === 'Escape'){
-            closeModalEditNote.click()
+            closeModalNote.click()
         }
     }
     if(modalEditLists.classList.contains('show')){
@@ -159,7 +156,9 @@ document.addEventListener('keydown',(e)=>{
             closeModalEditLists.click()
         }
     }
-}) // atajo para cerrar el modal
+})
+
+// ================= MODALS
 
 function openEditModal(e){
 
@@ -186,49 +185,40 @@ function openEditModal(e){
 
 function render(notes = undefined){
 
-    fillSelectOptions()
     fillNotes(notes)
     fillBtnLists()
+    fillOptions()
 
-    // modal - edit note
-    fillSelectOptionsModalEditNotes()
-    // modal - edit note
-    fillSelectOptionsModalEditLists()
-    
+    fillOptionsModalNotes()
+    fillOptionsModaLists()
+
+    marcarBotonSeleccionado()
+
 }
 
-// constructores de elementos
+// llenado de partes
 
 function fillBtnLists(){
 
-    btnLists.innerHTML = ''
     const fragment = document.createDocumentFragment()
 
-    // Añadimos All
-    const btnListAll = el('button', undefined ,'All')
-    activeButton || btnListAll.classList.add('btnActive')
-    fragment.appendChild(btnListAll)
-    
     // Añadimos botones por cada lista
     localLists.forEach(list =>{
 
         const btnList = el('button', undefined ,list.title)
-        list.id !== activeButton ||  btnList.classList.add('btnActive')
         btnList.dataset.id = list.id
         fragment.appendChild(btnList)
 
     })
 
     // añadimos funcionalidad a los botones
-    btnLists.addEventListener('click',filterViewByList)
-    btnLists.appendChild(fragment)
+    btnLists.replaceChildren(fragment)
 
 }
 
 function fillNotes(filteredNotes = undefined){
 
     const fragment = document.createDocumentFragment()
-    notesContainer.innerHTML = ''
     const dataFilter = filteredNotes || localNotes
 
     if(dataFilter.length != 0){
@@ -252,61 +242,32 @@ function fillNotes(filteredNotes = undefined){
     }
 
 
-    notesContainer.appendChild(fragment)
+    notesContainer.replaceChildren(fragment)
 
 }
 
-function fillSelectOptions(){
-
-    selectOptions.innerHTML=''
-
-    const fragment = document.createDocumentFragment()
-
-    const defaultOption = el('option',undefined,'Seleccione una lista')
-    defaultOption.value = ""
-    defaultOption.selected = true
-    
-    fragment.appendChild(defaultOption)
-    
-    localLists.forEach( list =>{
-        
-        const optionEl = el('option',undefined,list.title)
-        optionEl.value = list.id
-
-        fragment.appendChild(optionEl)
-
-    })
-    
-    selectOptions.appendChild(fragment)
+function fillOptions(){
+    const fragment = createOptions('Seleccione una lista')
+    selectOptions.replaceChildren(fragment)
 }
 
-function fillSelectOptionsModalEditLists(){
+function fillOptionsModalNotes(){
+    const fragment = createOptions('Sin Lista')
+    selectOptionsEditNotes.replaceChildren(fragment)
+}
 
-    selectOptionsEditLists.innerHTML=''
+function fillOptionsModaLists(){
 
-    const fragment = document.createDocumentFragment()
-    const xd = el('option',undefined,'Sin Lista')
-    xd.value = ''
-    fragment.appendChild(xd)
+    const fragment = createOptions('Sin Lista')
+    selectModalLists.replaceChildren(fragment)
 
-    localLists.forEach( list =>{
-        
-        const optionEl = el('option',undefined,list.title)
-        optionEl.value = list.id
+    selectModalLists.addEventListener('change',()=>{
 
-        fragment.appendChild(optionEl)
-
-    }) 
-
-    selectOptionsEditLists.appendChild(fragment)
-
-    selectOptionsEditLists.addEventListener('change',()=>{
-
-        const idList = selectOptionsEditLists.value
+        const idList = selectModalLists.value
         const label = modalEditLists.querySelector('label')
 
         if(idList) {
-            const nameList = selectOptionsEditLists.querySelector(`[value="${idList}"]`).textContent
+            const nameList = selectModalLists.querySelector(`[value="${idList}"]`).textContent
             inputEditList.value = nameList
             modalEditIdList.textContent = idList
             // remover disabled
@@ -315,24 +276,86 @@ function fillSelectOptionsModalEditLists(){
             btnCreateList.setAttribute('disabled','') 
             label.textContent = 'Editar Lista'
         }else{
-            modalEditIdList.textContent = '-'
-            btnCreateList.removeAttribute('disabled')
-            btnUpdateList.setAttribute('disabled','') 
-            btnDeleteList.setAttribute('disabled','')
-            label.textContent = 'Nueva Lista'
+            setDefaultOptionsModalLists()
         }
-
+        
     })
+    
+}
+
+// ================= FUNCIONES AUXILIARES
+
+
+function filterViewByList(e){
+
+    if(!(e.target.tagName === 'BUTTON')) return
+    const pulsedButton = e.target
+
+    const id = pulsedButton.dataset.id
+
+    activeButton = id //seteamos el botón activo
+
+    if(id){
+
+        let datosFiltrados
+        
+        if(id==0){ // con esto renderizamos solo lo que 
+            datosFiltrados = localNotes.filter(nota => nota.list_id == null )
+        }else{
+            const idBotonPulsado = e.target.dataset.id
+            datosFiltrados = localNotes.filter(nota => nota.list_id == idBotonPulsado )
+        }
+        render(datosFiltrados)
+    }else{
+        render()
+    }
+    
+}
+
+function setDefaultOptionsModalLists(){
+    const label = modalEditLists.querySelector('label')
+
+    label.textContent = 'Nueva Lista'
+    selectModalLists.value = ''
+    modalEditIdList.textContent = '-'
+    inputEditList.value = ''
+    btnCreateList.removeAttribute('disabled')
+    btnUpdateList.setAttribute('disabled','') 
+    btnDeleteList.setAttribute('disabled','')
+}
+
+function marcarBotonSeleccionado(){
+    
+    const botonestodos = btnListsAll.querySelectorAll('button')
+    
+    botonestodos.forEach(button=>{
+        button.classList.remove('btnActive')
+    })
+    
+    if(!activeButton){
+        btnAll.classList.add('btnActive')
+        return
+    }
+    
+    if(activeButton == 0){
+        btnNoList.classList.add('btnActive')
+    }else{
+        const xd = btnListsAll.querySelector(`[data-id="${activeButton}"]`)
+        xd.classList.add('btnActive')
+    }
 
 }
 
-function fillSelectOptionsModalEditNotes(){
-    selectOptionsEditNotes.innerHTML=''
+// creacion de elementos
 
+function createOptions(text){
     const fragment = document.createDocumentFragment()
-    const xd = el('option',undefined,'Sin Lista')
-    xd.value = ''
-    fragment.appendChild(xd)
+
+    const defaultOption = el('option',undefined,text)
+    defaultOption.value = ""
+    defaultOption.selected = true
+    
+    fragment.appendChild(defaultOption)
 
     localLists.forEach( list =>{
         
@@ -341,39 +364,12 @@ function fillSelectOptionsModalEditNotes(){
 
         fragment.appendChild(optionEl)
 
-    }) 
+    })
 
-    selectOptionsEditNotes.appendChild(fragment)
-
-
-
-}
-
-// funciones auxiliares
-
-function filterViewByList(e){
-
-    if(!(e.target.tagName === 'BUTTON')) return
-
-    const id = e.target.dataset.id
-
-    activeButton = id //seteamos el botón activo
-
-    if(id){
-
-        const idBotonPulsado = e.target.dataset.id
-        const datosFiltrados = localNotes.filter(nota => nota.list_id == idBotonPulsado )
-
-        render(datosFiltrados)
-        
-    }else{
-        render()
-    }
-
-}
+    return fragment
+} 
 
 function el(tag, className = undefined, text = undefined){
-    // creador de elementos html
     const element = document.createElement(tag)
     if(className) element.className = className
     if(text) element.textContent = text
@@ -384,7 +380,9 @@ function el(tag, className = undefined, text = undefined){
 
 async function initializeData() {
 
+    // traemos los datos paralelamente
     try{
+
         [
             localLists,
             localNotes
@@ -400,12 +398,7 @@ async function initializeData() {
 }
 
 async function init(){
-
     await initializeData()
-
-    console.log(localLists)
-    console.log(localNotes)
-
     render()
 }
 
