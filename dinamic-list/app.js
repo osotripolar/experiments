@@ -20,20 +20,34 @@ const containerModalEditNote = document.getElementById('modalEditNote')
 const closeModalNote = document.getElementById('closeModalEditNote')
 const selectOptionsEditNotes = document.getElementById('listOptionsModalEditNote')
 const inputEditNote = document.getElementById('inputEditNote')
-const updateNoteButton = document.getElementById('updateNote')
-const spanId = document.getElementById('modalEditIdNote')
+const btnUpdateNote = document.getElementById('updateNote')
+const idNoteModal = document.getElementById('idNoteModal')
 
-// modal edit listas
-const closeModalEditLists = document.getElementById('closeModalEditLists')
+// modal edit lists
 const modalEditLists = document.getElementById('modalEditLists')
 const selectModalLists = document.getElementById('selectModalLists')
 const inputEditList = document.getElementById('inputEditList')
-const modalEditIdList = document.getElementById('modalEditIdList')
+const inputNewList = document.getElementById('inputNewList')
+const idListModal = document.getElementById('idListModal')
+// botones
+const btnCreateList = document.getElementById('createList')
 const btnUpdateList = document.getElementById('updateList')
 const btnDeleteList = document.getElementById('deleteList')
-const btnCreateList = document.getElementById('createList')
+const btnCloseModalEditLists = document.getElementById('btnCloseModalEditLists')
 
 // ================= LISTENERS
+
+inputNewList.addEventListener('keydown',(e)=>{
+    if(inputNewList.value){
+        btnCreateList.removeAttribute('disabled')
+        if(e.key === 'Enter'){
+            btnCreateList.click()
+            btnCloseModalEditLists.click()
+        }
+    }else{
+        btnCreateList.setAttribute('disabled','')
+    }
+})
 
 inputNote.addEventListener('keydown',(e) =>{
     if(e.key === 'Enter') addNoteBtn.click()
@@ -79,9 +93,9 @@ addNoteBtn.addEventListener('click',()=>{
 
 })
 
-updateNoteButton.addEventListener('click',async()=>{
+btnUpdateNote.addEventListener('click',async()=>{
 
-    const idNewNote = spanId.textContent
+    const idNewNote = idNoteModal.textContent
     const newText = inputEditNote.value
     const newIdList = selectOptionsEditNotes.value
 
@@ -106,45 +120,47 @@ closeModalNote.addEventListener('click',(e)=>{
 
 btnCreateList.addEventListener('click',()=>{
 
-    if(!inputEditList.value) return
+    if(!inputNewList.value) return
     
-    const newListName = inputEditList.value 
+    const newListName = inputNewList.value 
 
     postList(newListName)
-    closeModalEditLists.click()
+    btnCloseModalEditLists.click()
     init()
 })
 
 btnUpdateList.addEventListener('click',async()=>{
 
     const newListData = {
-        id: modalEditIdList.textContent,
+        id: idListModal.textContent,
         title: inputEditList.value
     }
 
     await updateList(newListData)
-    closeModalEditLists.click()
+    btnCloseModalEditLists.click()
     init()
     
 })
 
 btnDeleteList.addEventListener('click',async()=>{
-    const idList = modalEditIdList.textContent
+    const idList = idListModal.textContent
     await deleteList(idList)
-    closeModalEditLists.click()
+    btnCloseModalEditLists.click()
     init()
 })
 
 btnListEdit.addEventListener('click',()=>{
     modalEditLists.classList.add('show')
+    inputNewList.focus()
 })
 
-closeModalEditLists.addEventListener('click',()=>{
-    setDefaultOptionsModalLists()
+btnCloseModalEditLists.addEventListener('click',()=>{
+    setDefaultOptionsModalListsEditOrDelete()
     modalEditLists.classList.remove('show')
 })
 
-// atajos para cerrar el modal
+// Atajos
+
 document.addEventListener('keydown',(e)=>{
     if(containerModalEditNote.classList.contains('show')){
         if(e.key === 'Escape'){
@@ -153,7 +169,7 @@ document.addEventListener('keydown',(e)=>{
     }
     if(modalEditLists.classList.contains('show')){
         if(e.key === 'Escape'){
-            closeModalEditLists.click()
+            btnCloseModalEditLists.click()
         }
     }
 })
@@ -167,7 +183,7 @@ function openEditModal(e){
     const noteId = li.dataset.id
     const noteListId =  li.dataset.idList
 
-    spanId.textContent = noteId
+    idNoteModal.textContent = noteId
     inputEditNote.value = noteText
     inputEditNote.focus()
     inputEditNote.select()
@@ -193,7 +209,6 @@ function render(notes = undefined){
     fillOptionsModaLists()
 
     marcarBotonSeleccionado()
-
 }
 
 // llenado de partes
@@ -264,19 +279,17 @@ function fillOptionsModaLists(){
     selectModalLists.addEventListener('change',()=>{
 
         const idList = selectModalLists.value
-        const label = modalEditLists.querySelector('label')
 
         if(idList) {
             const nameList = selectModalLists.querySelector(`[value="${idList}"]`).textContent
             inputEditList.value = nameList
-            modalEditIdList.textContent = idList
+            idListModal.textContent = idList
             // remover disabled
+            inputEditList.removeAttribute('disabled')
             btnUpdateList.removeAttribute('disabled') 
             btnDeleteList.removeAttribute('disabled')
-            btnCreateList.setAttribute('disabled','') 
-            label.textContent = 'Editar Lista'
         }else{
-            setDefaultOptionsModalLists()
+            setDefaultOptionsModalListsEditOrDelete()
         }
         
     })
@@ -312,16 +325,16 @@ function filterViewByList(e){
     
 }
 
-function setDefaultOptionsModalLists(){
-    const label = modalEditLists.querySelector('label')
-
-    label.textContent = 'Nueva Lista'
+function setDefaultOptionsModalListsEditOrDelete(){
+    // tambien deberíamos de inhabilitar el input correspondiente
     selectModalLists.value = ''
-    modalEditIdList.textContent = '-'
+    idListModal.textContent = '-'
     inputEditList.value = ''
-    btnCreateList.removeAttribute('disabled')
+    inputNewList.value = ''
+    inputEditList.setAttribute('disabled','')
     btnUpdateList.setAttribute('disabled','') 
     btnDeleteList.setAttribute('disabled','')
+    btnCreateList.setAttribute('disabled','')
 }
 
 function marcarBotonSeleccionado(){
@@ -388,7 +401,7 @@ async function initializeData() {
             localNotes
         ] = await Promise.all([
             getLists(),
-            getNotes()   
+            getNotes()
         ])
 
     }catch(error){

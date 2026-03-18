@@ -52,6 +52,7 @@ a{
 
 ul{
     padding: 0;
+    margin: 0;
 }
 
 .container{
@@ -70,7 +71,7 @@ ul{
     background-color: var(--color-success);
 }
 
-.btn--delete{
+.btn--danger{
     background-color: var(--color-danger);
     padding: 5px 8px;
 }
@@ -112,51 +113,14 @@ main{
 }
 
 .main-header button{
-    background-color: rgb(0, 0, 0);
     padding: 5px 10px;
+    background-color: rgb(0, 0, 0);
 }
 
 
 /* =============== ELEMENTOS */
 
 
-/* modal */
-
-.container-modal{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.container-modal.show{
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal{
-    max-width: 90%;
-    max-height: 80%;
-    width: 600px;
-    height: 550px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 8px rgba(100, 100, 100, 1);
-    display: flex;
-    flex-direction: column;
-}
-
-i{
-    pointer-events: none;
-}
 /* form */
 
 .form{
@@ -164,18 +128,19 @@ i{
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin: 0;
 
     background-color: var(--color-ligth);
     box-shadow: 0 3px 6px rgba( 0, 0, 0 , 0.2);
     border-radius: 5px;
-    padding: 12px;
+    padding: 18px 12px;
 }
 
 .form__text-group{
     display: flex;
     gap: 6px;
+
     width: 100%;
 }
 
@@ -193,6 +158,99 @@ i{
     flex: 1;
 }
 
+
+/* modal */
+
+.container-modal{
+    position: fixed;
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.container-modal.show{
+    opacity: 1;
+    pointer-events: auto;
+    text-align: center;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    max-width: 90%;
+    max-height: 80%;
+    width: 600px;
+    /* height: 550px; */
+    padding: 18px 25px;
+
+    background-color: var(--color-ligth-1);
+    box-shadow: 0 0 8px rgba(100, 100, 100, 1);
+    border-radius: 20px;
+}
+
+
+.form--modal{
+    border-radius: 20px;
+    width: 100%;
+
+}
+
+.form--modal button{
+    width: fit-content;
+    padding: 5px 15px;
+}
+
+.modal h2{
+    margin: 0;
+}
+
+.form--modal label{
+    margin-right: auto;
+}
+
+.form--modal input,
+.form--modal p,
+.form--modal select{
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.form--modal__newList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #aaa;
+}
+
+.form--modal button{
+    margin: auto;
+}
+
+.form--modal__editList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form--modal__editTask{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
 
 /* notes */
 
@@ -234,6 +292,8 @@ i{
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+
+    margin: 16px 0;
     
 }
 
@@ -249,7 +309,13 @@ i{
     padding: 5px 10px;
 }
 
-/* =============== EXTRAS: (inspirados en Bootstrap) */
+/* =============== EXTRAS: (e inspirados en Bootstrap) */
+
+
+i{
+    pointer-events: none;
+}
+
 
 .italic{
     font-style: italic;

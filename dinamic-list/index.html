@@ -15,11 +15,9 @@
 
     <nav>
         <div class="container container-nav">
-
             <h1>
                 <a href="../">Oso Tripolar</a>
             </h1>
-        
         </div>
     </nav>
 
@@ -59,10 +57,7 @@
                     <button id="btnNoList" data-id="0"> No List </button>
                 </div>
                 <div class="buttons-lists__group" id="btnLists">
-                    <button> Uno </button>
-                    <button> Dos </button>
-                    <button> Tres </button>
-                    <button> Dos </button>
+                    <!-- <button> Ejemplo </button> -->
                 </div>
             </div>
             
@@ -85,42 +80,62 @@
 
     <div class="container-modal" id="modalEditLists">
         <div class="modal">
-            <h1>Administrar Listas</h1>
-            <div class="form">
-                <p>Id List: </p> <p id="modalEditIdList">-</p> 
-                <button id="createList" >New List</button>
-                <button id="updateList" disabled>Actualizar</button>
-                <button id="deleteList" disabled>Borrar Lista</button>
-                <br>
-                <select name="" id="selectModalLists">
+            <h2>Administrar Listas</h2>
+            <div class="form form--modal">
 
-                </select>
-                <label for="inputEditList">Nueva Lista :</label>
-                <input type="text" id="inputEditList">
+                <div class="form--modal__newList">
+                    <h3>Crear Nueva Lista</h3>
+                    <label for="inputNewList">Nueva Lista:</label>
+                    <input type="text" id="inputNewList">
+                    <button class="btn--success" id="createList"  disabled>Crear Lista</button>
+                </div>
+
+                <div class="form--modal__editList">
+                    <h3>Editar o Borrar Lista</h3>
+
+                    <label for="selectModalLists">Seleccione una lista</label>
+                    <select name="" id="selectModalLists">
+                    </select>
+
+                    <label for="inputEditList">Renombrar :</label>
+                    <input type="text" id="inputEditList">
+                    <p class="italic">List Id : <em id="idListModal">-</em></p>
+                    <div class="">
+                        <button id="updateList" disabled>Actualizar</button>
+                        <button class="btn--danger" id="deleteList" disabled>Borrar Lista</button>
+                    </div>
+                </div>
+
             </div>
-            <button id="closeModalEditLists" style="margin-top: auto;">Cerrar</button>
+            <button class="btn--danger" id="btnCloseModalEditLists">Cerrar</button>
         </div>
     </div>
 
     <div class="container-modal" id="modalEditNote">
         <div class="modal">
-            <h1>Editar Nota</h1>
+            <h2>Editar Nota</h2>
 
-            <div class="form">
-                <p>Id Note: </p> <p id="modalEditIdNote"></p>
-                <label for="inputEditNote">Editar:</label>
-                <input type="text" id="inputEditNote">
-                <br>
-                <select name="Lists" id="listOptionsModalEditNote">
-                    <option value="" selected>Seleccione una lista</option>
-                </select>
+            <div class="form form--modal">
+
+                <div class="form--modal__editTask">
+
+                    <label for="inputEditNote">Editar:</label>
+                    <input type="text" id="inputEditNote">
+                    
+                    <p class="italic">Id Note : <span id="idNoteModal">-</span></p> 
+
+                    <label for="listOptionsModalEditNote">Editar Lista:</label>
+                    <select name="Lists" id="listOptionsModalEditNote">
+                        <option value="" selected>Seleccione una lista</option>
+                    </select>
+
+                    <button id="updateNote">Actualizar</button>
+
+                </div>
+
             </div>
             
-            <div class="modal-buttons" style="margin-top: auto;">
-                <button id="updateNote">Actualizar</button>
-                <button id="closeModalEditNote">cerrar</button>
-            </div>
-
+            <button class="btn--danger" id="closeModalEditNote">cerrar</button>
         </div>
     </div>
 
@@ -134,7 +149,7 @@
                 <button class="btn--edit">
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn--delete">
+                <button class="btn--danger">
                     <i class="bi bi-trash3"></i>
                 </button>
             </div>
