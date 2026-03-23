@@ -103,7 +103,6 @@ export async function getLists(){
 
 export async function deleteList(idList) {
 
-    
     const index = lists.findIndex(list => list.id == idList)
 
     if(index == -1){

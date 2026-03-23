@@ -1,418 +1,395 @@
-import { getLists , deleteList , postList, updateList , getNotes  , postNote , updateNote , deleteNote} from "./dataService.js";
+import {
+  getLists,
+  deleteList,
+  postList,
+  updateList,
+  getNotes,
+  postNote,
+  updateNote,
+  deleteNote,
+} from "./dataProvider.js";
 
-let localNotes
-let localLists
-let activeButton
+let localNotes;
+let localLists;
+let activeButton;
 
-const notesContainer = document.getElementById('notesContainer')
-const selectOptions = document.getElementById('listOptions')
-const addNoteBtn = document.getElementById('addNoteBtn')
-const inputNote = document.getElementById('inputNote')
-const btnLists = document.getElementById('btnLists')
-const noteTemplate = document.getElementById('noteTemplate')
-const btnListEdit = document.getElementById('btnListEdit')
-const btnListsAll = document.getElementById('btnListsAll')
-const btnAll = document.getElementById('btnAll')
-const btnNoList = document.getElementById('btnNoList')
+const notesContainer = document.getElementById("notesContainer");
+const selectOptions = document.getElementById("listOptions");
+const addNoteBtn = document.getElementById("addNoteBtn");
+const inputNote = document.getElementById("inputNote");
+const btnLists = document.getElementById("btnLists");
+const noteTemplate = document.getElementById("noteTemplate");
+const btnListEdit = document.getElementById("btnListEdit");
+const btnListsAll = document.getElementById("btnListsAll");
+const btnAll = document.getElementById("btnAll");
+const btnNoList = document.getElementById("btnNoList");
 
 // moda editar nota
-const containerModalEditNote = document.getElementById('modalEditNote')
-const closeModalNote = document.getElementById('closeModalEditNote')
-const selectOptionsEditNotes = document.getElementById('listOptionsModalEditNote')
-const inputEditNote = document.getElementById('inputEditNote')
-const btnUpdateNote = document.getElementById('updateNote')
-const idNoteModal = document.getElementById('idNoteModal')
+const containerModalEditNote = document.getElementById("modalEditNote");
+const closeModalNote = document.getElementById("closeModalEditNote");
+const selectOptionsEditNotes = document.getElementById(
+  "listOptionsModalEditNote",
+);
+const inputEditNote = document.getElementById("inputEditNote");
+const btnUpdateNote = document.getElementById("updateNote");
+const idNoteModal = document.getElementById("idNoteModal");
 
 // modal edit lists
-const modalEditLists = document.getElementById('modalEditLists')
-const selectModalLists = document.getElementById('selectModalLists')
-const inputEditList = document.getElementById('inputEditList')
-const inputNewList = document.getElementById('inputNewList')
-const idListModal = document.getElementById('idListModal')
+const modalEditLists = document.getElementById("modalEditLists");
+const selectModalLists = document.getElementById("selectModalLists");
+const inputEditList = document.getElementById("inputEditList");
+const inputNewList = document.getElementById("inputNewList");
+const idListModal = document.getElementById("idListModal");
 // botones
-const btnCreateList = document.getElementById('createList')
-const btnUpdateList = document.getElementById('updateList')
-const btnDeleteList = document.getElementById('deleteList')
-const btnCloseModalEditLists = document.getElementById('btnCloseModalEditLists')
+const btnCreateList = document.getElementById("createList");
+const btnUpdateList = document.getElementById("updateList");
+const btnDeleteList = document.getElementById("deleteList");
+const btnCloseModalEditLists = document.getElementById(
+  "btnCloseModalEditLists",
+);
 
 // ================= LISTENERS
 
-inputNewList.addEventListener('keydown',(e)=>{
-    if(inputNewList.value){
-        btnCreateList.removeAttribute('disabled')
-        if(e.key === 'Enter'){
-            btnCreateList.click()
-            btnCloseModalEditLists.click()
-        }
-    }else{
-        btnCreateList.setAttribute('disabled','')
+inputNewList.addEventListener("keydown", (e) => {
+  if (inputNewList.value) {
+    btnCreateList.removeAttribute("disabled");
+    if (e.key === "Enter") {
+      btnCreateList.click();
+      btnCloseModalEditLists.click();
     }
-})
+  } else {
+    btnCreateList.setAttribute("disabled", "");
+  }
+});
 
-inputNote.addEventListener('keydown',(e) =>{
-    if(e.key === 'Enter') addNoteBtn.click()
-})
+inputNote.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addNoteBtn.click();
+});
 
-notesContainer.addEventListener('click',(e)=>{
+notesContainer.addEventListener("click", (e) => {
+  if (e.target.tagName !== "BUTTON") return;
 
-    if(e.target.tagName !== 'BUTTON') return
+  if (e.target.classList.contains("btn--edit")) {
+    openEditModal(e);
+  }
 
-    if(e.target.classList.contains('btn--edit')){
-        openEditModal(e)
-    }
+  if (e.target.classList.contains("btn--danger")) {
+    console.log("xd");
 
-    if(e.target.classList.contains('btn--delete')){
+    const idNote = e.target.closest("li").dataset.id;
 
-        const idNote = e.target.closest('li').dataset.id
+    deleteNote(idNote);
+    init();
+  }
+});
 
-        deleteNote(idNote)
-        init()
-    }
-    
-})
-
-btnListsAll.addEventListener('click',filterViewByList)
+btnListsAll.addEventListener("click", filterViewByList);
 
 // modal note
 
-addNoteBtn.addEventListener('click',()=>{
+addNoteBtn.addEventListener("click", () => {
+  if (!inputNote.value) return;
 
-    if(!inputNote.value) return
+  const newNote = {
+    content: inputNote.value,
+    list_id: selectOptions.value === "" ? null : selectOptions.value,
+  };
 
-    const newNote = {
-        content : inputNote.value,
-        list_id : selectOptions.value === "" ? null : selectOptions.value
-    }
-    
-    postNote(newNote)
-    
-    // limpiamos el input
-    inputNote.value = ''
+  postNote(newNote);
 
-    init()
+  // limpiamos el input
+  inputNote.value = "";
 
-})
+  init();
+});
 
-btnUpdateNote.addEventListener('click',async()=>{
+btnUpdateNote.addEventListener("click", async () => {
+  const idNewNote = idNoteModal.textContent;
+  const newText = inputEditNote.value;
+  const newIdList = selectOptionsEditNotes.value;
 
-    const idNewNote = idNoteModal.textContent
-    const newText = inputEditNote.value
-    const newIdList = selectOptionsEditNotes.value
+  const newData = {
+    id: idNewNote,
+    content: newText,
+    list_id: newIdList === "" ? null : newIdList,
+  };
 
-    const newData = {
-        id: idNewNote,
-        content : newText,
-        list_id : newIdList === "" ? null : newIdList
-    }
+  await updateNote(newData);
 
-    await updateNote(newData)
+  closeModalNote.click();
+  init();
+});
 
-    closeModalNote.click()
-    init()
-
-})
-
-closeModalNote.addEventListener('click',(e)=>{
-    containerModalEditNote.classList.remove('show')
-})
+closeModalNote.addEventListener("click", (e) => {
+  containerModalEditNote.classList.remove("show");
+});
 
 // modal list
 
-btnCreateList.addEventListener('click',()=>{
+btnCreateList.addEventListener("click", () => {
+  if (!inputNewList.value) return;
 
-    if(!inputNewList.value) return
-    
-    const newListName = inputNewList.value 
+  const newListName = inputNewList.value;
 
-    postList(newListName)
-    btnCloseModalEditLists.click()
-    init()
-})
+  postList(newListName);
+  btnCloseModalEditLists.click();
+  init();
+});
 
-btnUpdateList.addEventListener('click',async()=>{
+btnUpdateList.addEventListener("click", async () => {
+  const newListData = {
+    id: idListModal.textContent,
+    title: inputEditList.value,
+  };
 
-    const newListData = {
-        id: idListModal.textContent,
-        title: inputEditList.value
-    }
+  await updateList(newListData);
+  btnCloseModalEditLists.click();
+  init();
+});
 
-    await updateList(newListData)
-    btnCloseModalEditLists.click()
-    init()
-    
-})
+btnDeleteList.addEventListener("click", async () => {
+  const idList = idListModal.textContent;
+  await deleteList(idList);
+  btnCloseModalEditLists.click();
+  init();
+});
 
-btnDeleteList.addEventListener('click',async()=>{
-    const idList = idListModal.textContent
-    await deleteList(idList)
-    btnCloseModalEditLists.click()
-    init()
-})
+btnListEdit.addEventListener("click", () => {
+  modalEditLists.classList.add("show");
+  inputNewList.focus();
+});
 
-btnListEdit.addEventListener('click',()=>{
-    modalEditLists.classList.add('show')
-    inputNewList.focus()
-})
-
-btnCloseModalEditLists.addEventListener('click',()=>{
-    setDefaultOptionsModalListsEditOrDelete()
-    modalEditLists.classList.remove('show')
-})
+btnCloseModalEditLists.addEventListener("click", () => {
+  setDefaultOptionsModalListsEditOrDelete();
+  modalEditLists.classList.remove("show");
+});
 
 // Atajos
 
-document.addEventListener('keydown',(e)=>{
-    if(containerModalEditNote.classList.contains('show')){
-        if(e.key === 'Escape'){
-            closeModalNote.click()
-        }
+document.addEventListener("keydown", (e) => {
+  if (containerModalEditNote.classList.contains("show")) {
+    if (e.key === "Escape") {
+      closeModalNote.click();
     }
-    if(modalEditLists.classList.contains('show')){
-        if(e.key === 'Escape'){
-            btnCloseModalEditLists.click()
-        }
+  }
+  if (modalEditLists.classList.contains("show")) {
+    if (e.key === "Escape") {
+      btnCloseModalEditLists.click();
     }
-})
+  }
+});
 
 // ================= MODALS
 
-function openEditModal(e){
+function openEditModal(e) {
+  const li = e.target.closest("li");
+  const noteText = li.querySelector("p").textContent;
+  const noteId = li.dataset.id;
+  const noteListId = li.dataset.idList;
 
-    const li = e.target.closest('li')
-    const noteText = li.querySelector('p').textContent
-    const noteId = li.dataset.id
-    const noteListId =  li.dataset.idList
+  idNoteModal.textContent = noteId;
+  inputEditNote.value = noteText;
+  inputEditNote.focus();
+  inputEditNote.select();
 
-    idNoteModal.textContent = noteId
-    inputEditNote.value = noteText
-    inputEditNote.focus()
-    inputEditNote.select()
+  if (noteListId) {
+    const option = selectOptionsEditNotes.querySelector(
+      `option[value="${noteListId}"]`,
+    );
+    option.selected = true;
+  }
 
-
-    if(noteListId){
-        const option = selectOptionsEditNotes.querySelector(`option[value="${noteListId}"]`)
-        option.selected = true
-    }
-    
-    containerModalEditNote.classList.add('show')
+  containerModalEditNote.classList.add("show");
 }
 
 // ================= RENDER
 
-function render(notes = undefined){
+function render(notes = undefined) {
+  fillNotes(notes);
+  fillBtnLists();
+  fillOptions();
 
-    fillNotes(notes)
-    fillBtnLists()
-    fillOptions()
+  fillOptionsModalNotes();
+  fillOptionsModaLists();
 
-    fillOptionsModalNotes()
-    fillOptionsModaLists()
-
-    marcarBotonSeleccionado()
+  marcarBotonSeleccionado();
 }
 
 // llenado de partes
 
-function fillBtnLists(){
+function fillBtnLists() {
+  const fragment = document.createDocumentFragment();
 
-    const fragment = document.createDocumentFragment()
+  // Añadimos botones por cada lista
+  localLists.forEach((list) => {
+    const btnList = el("button", undefined, list.title);
+    btnList.dataset.id = list.id;
+    fragment.appendChild(btnList);
+  });
 
-    // Añadimos botones por cada lista
-    localLists.forEach(list =>{
-
-        const btnList = el('button', undefined ,list.title)
-        btnList.dataset.id = list.id
-        fragment.appendChild(btnList)
-
-    })
-
-    // añadimos funcionalidad a los botones
-    btnLists.replaceChildren(fragment)
-
+  // añadimos funcionalidad a los botones
+  btnLists.replaceChildren(fragment);
 }
 
-function fillNotes(filteredNotes = undefined){
+function fillNotes(filteredNotes = undefined) {
+  const fragment = document.createDocumentFragment();
+  const dataFilter = filteredNotes || localNotes;
 
-    const fragment = document.createDocumentFragment()
-    const dataFilter = filteredNotes || localNotes
+  if (dataFilter.length != 0) {
+    dataFilter.forEach((note) => {
+      const noteContent = noteTemplate.content.cloneNode(true);
+      const pNote = noteContent.querySelector("p");
+      const liNote = noteContent.querySelector("li");
 
-    if(dataFilter.length != 0){
-        
-        dataFilter.forEach(note =>{
+      pNote.textContent = note.content;
+      liNote.dataset.id = note.id;
+      if (note.list_id) liNote.dataset.idList = note.list_id;
 
-            const noteContent = noteTemplate.content.cloneNode(true)
-            const pNote = noteContent.querySelector('p')
-            const liNote = noteContent.querySelector('li')
+      fragment.appendChild(noteContent);
+    });
+  } else {
+    const message = el("p", "italic", "Vacío: inserte una nota");
+    fragment.appendChild(message);
+  }
 
-            pNote.textContent = note.content
-            liNote.dataset.id = note.id
-            if(note.list_id) liNote.dataset.idList = note.list_id
-            
-            fragment.appendChild(noteContent)
-        })
+  notesContainer.replaceChildren(fragment);
+}
 
-    }else{
-        const message = el('p','italic','Vacío: inserte una nota')
-        fragment.appendChild(message)
+function fillOptions() {
+  const fragment = createOptions("Seleccione una lista");
+  selectOptions.replaceChildren(fragment);
+}
+
+function fillOptionsModalNotes() {
+  const fragment = createOptions("Sin Lista");
+  selectOptionsEditNotes.replaceChildren(fragment);
+}
+
+function fillOptionsModaLists() {
+  const fragment = createOptions("Sin Lista");
+  selectModalLists.replaceChildren(fragment);
+
+  selectModalLists.addEventListener("change", () => {
+    const idList = selectModalLists.value;
+
+    if (idList) {
+      const nameList = selectModalLists.querySelector(
+        `[value="${idList}"]`,
+      ).textContent;
+      inputEditList.value = nameList;
+      idListModal.textContent = idList;
+      // remover disabled
+      inputEditList.removeAttribute("disabled");
+      btnUpdateList.removeAttribute("disabled");
+      btnDeleteList.removeAttribute("disabled");
+    } else {
+      setDefaultOptionsModalListsEditOrDelete();
     }
-
-
-    notesContainer.replaceChildren(fragment)
-
-}
-
-function fillOptions(){
-    const fragment = createOptions('Seleccione una lista')
-    selectOptions.replaceChildren(fragment)
-}
-
-function fillOptionsModalNotes(){
-    const fragment = createOptions('Sin Lista')
-    selectOptionsEditNotes.replaceChildren(fragment)
-}
-
-function fillOptionsModaLists(){
-
-    const fragment = createOptions('Sin Lista')
-    selectModalLists.replaceChildren(fragment)
-
-    selectModalLists.addEventListener('change',()=>{
-
-        const idList = selectModalLists.value
-
-        if(idList) {
-            const nameList = selectModalLists.querySelector(`[value="${idList}"]`).textContent
-            inputEditList.value = nameList
-            idListModal.textContent = idList
-            // remover disabled
-            inputEditList.removeAttribute('disabled')
-            btnUpdateList.removeAttribute('disabled') 
-            btnDeleteList.removeAttribute('disabled')
-        }else{
-            setDefaultOptionsModalListsEditOrDelete()
-        }
-        
-    })
-    
+  });
 }
 
 // ================= FUNCIONES AUXILIARES
 
+function filterViewByList(e) {
+  if (!(e.target.tagName === "BUTTON")) return;
+  const pulsedButton = e.target;
 
-function filterViewByList(e){
+  const id = pulsedButton.dataset.id;
 
-    if(!(e.target.tagName === 'BUTTON')) return
-    const pulsedButton = e.target
+  activeButton = id; //seteamos el botón activo
 
-    const id = pulsedButton.dataset.id
+  if (id) {
+    let datosFiltrados;
 
-    activeButton = id //seteamos el botón activo
-
-    if(id){
-
-        let datosFiltrados
-        
-        if(id==0){ // con esto renderizamos solo lo que 
-            datosFiltrados = localNotes.filter(nota => nota.list_id == null )
-        }else{
-            const idBotonPulsado = e.target.dataset.id
-            datosFiltrados = localNotes.filter(nota => nota.list_id == idBotonPulsado )
-        }
-        render(datosFiltrados)
-    }else{
-        render()
+    if (id == 0) {
+      // con esto renderizamos solo lo que
+      datosFiltrados = localNotes.filter((nota) => nota.list_id == null);
+    } else {
+      const idBotonPulsado = e.target.dataset.id;
+      datosFiltrados = localNotes.filter(
+        (nota) => nota.list_id == idBotonPulsado,
+      );
     }
-    
+    render(datosFiltrados);
+  } else {
+    render();
+  }
 }
 
-function setDefaultOptionsModalListsEditOrDelete(){
-    // tambien deberíamos de inhabilitar el input correspondiente
-    selectModalLists.value = ''
-    idListModal.textContent = '-'
-    inputEditList.value = ''
-    inputNewList.value = ''
-    inputEditList.setAttribute('disabled','')
-    btnUpdateList.setAttribute('disabled','') 
-    btnDeleteList.setAttribute('disabled','')
-    btnCreateList.setAttribute('disabled','')
+function setDefaultOptionsModalListsEditOrDelete() {
+  // tambien deberíamos de inhabilitar el input correspondiente
+  selectModalLists.value = "";
+  idListModal.textContent = "-";
+  inputEditList.value = "";
+  inputNewList.value = "";
+  inputEditList.setAttribute("disabled", "");
+  btnUpdateList.setAttribute("disabled", "");
+  btnDeleteList.setAttribute("disabled", "");
+  btnCreateList.setAttribute("disabled", "");
 }
 
-function marcarBotonSeleccionado(){
-    
-    const botonestodos = btnListsAll.querySelectorAll('button')
-    
-    botonestodos.forEach(button=>{
-        button.classList.remove('btnActive')
-    })
-    
-    if(!activeButton){
-        btnAll.classList.add('btnActive')
-        return
-    }
-    
-    if(activeButton == 0){
-        btnNoList.classList.add('btnActive')
-    }else{
-        const xd = btnListsAll.querySelector(`[data-id="${activeButton}"]`)
-        xd.classList.add('btnActive')
-    }
+function marcarBotonSeleccionado() {
+  const botonestodos = btnListsAll.querySelectorAll("button");
 
+  botonestodos.forEach((button) => {
+    button.classList.remove("btnActive");
+  });
+
+  if (!activeButton) {
+    btnAll.classList.add("btnActive");
+    return;
+  }
+
+  if (activeButton == 0) {
+    btnNoList.classList.add("btnActive");
+  } else {
+    const xd = btnListsAll.querySelector(`[data-id="${activeButton}"]`);
+    xd.classList.add("btnActive");
+  }
 }
 
 // creacion de elementos
 
-function createOptions(text){
-    const fragment = document.createDocumentFragment()
+function createOptions(text) {
+  const fragment = document.createDocumentFragment();
 
-    const defaultOption = el('option',undefined,text)
-    defaultOption.value = ""
-    defaultOption.selected = true
-    
-    fragment.appendChild(defaultOption)
+  const defaultOption = el("option", undefined, text);
+  defaultOption.value = "";
+  defaultOption.selected = true;
 
-    localLists.forEach( list =>{
-        
-        const optionEl = el('option',undefined,list.title)
-        optionEl.value = list.id
+  fragment.appendChild(defaultOption);
 
-        fragment.appendChild(optionEl)
+  localLists.forEach((list) => {
+    const optionEl = el("option", undefined, list.title);
+    optionEl.value = list.id;
 
-    })
+    fragment.appendChild(optionEl);
+  });
 
-    return fragment
-} 
+  return fragment;
+}
 
-function el(tag, className = undefined, text = undefined){
-    const element = document.createElement(tag)
-    if(className) element.className = className
-    if(text) element.textContent = text
-    return element
+function el(tag, className = undefined, text = undefined) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text) element.textContent = text;
+  return element;
 }
 
 // ================= APP START
 
 async function initializeData() {
-
-    // traemos los datos paralelamente
-    try{
-
-        [
-            localLists,
-            localNotes
-        ] = await Promise.all([
-            getLists(),
-            getNotes()
-        ])
-
-    }catch(error){
-        console.log('Error al traer los datos', error)
-    }
-    
+  // traemos los datos paralelamente
+  try {
+    [localLists, localNotes] = await Promise.all([getLists(), getNotes()]);
+  } catch (error) {
+    console.log("Error al traer los datos", error);
+  }
 }
 
-async function init(){
-    await initializeData()
-    render()
+async function init() {
+  await initializeData();
+  render();
 }
 
-init()
+init();
