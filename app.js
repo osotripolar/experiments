@@ -29,3 +29,5 @@ function setThemeToNormal(){
     html.classList.remove('dark')
     themeIcon.className = 'bi bi-moon-fill'
 }
+
+
