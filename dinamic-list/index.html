@@ -1,165 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de listas</title>
     <!-- iconos -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <!-- css -->
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="styles.css" />
+    <!-- js : theme -->
+    <script>
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
     <!-- NAV -->
 
     <nav>
-        <div class="container container-nav">
-            <h1>
-                <a href="../">Oso Tripolar</a>
-            </h1>
-        </div>
+      <div class="container container-nav">
+        <a href="/">
+          <h1>Oso Tripolar</h1>
+        </a>
+
+        <label for="inputTheme">
+          <i class="bi bi-moon-fill" id="iconTheme"></i>
+        </label>
+        <input type="checkbox" id="inputTheme" aria-label="Cambiar tema" />
+      </div>
     </nav>
 
     <!-- MAIN -->
 
     <main>
-        <div class="container container-main">
+      <div class="container container-main">
+        <!-- encabezado -->
+        <div class="main-header">
+          <h1>Lista Dinámica</h1>
+          <p>
+            En este ejercicio creamos un bloc de notas dinámico dónde podemos
+            clasificar por Listas, a su vez estas también son dinámicas
+          </p>
 
-            <!-- encabezado -->
-            <div class="main-header">
-                <h1>Lista Dinámica </h1>
-                <p>En este ejercicio creamos un bloc de notas dinámico dónde podemos clasificar por Listas, a su vez estas también son dinámicas</p>
-    
-                <button id="btnListEdit">Administrar Listas</button>
-            </div>
-            
-            
-            <!-- from -->
-            <div class="form">
-                <div class="form__text-group">
-                    <label for="inputNote">Nota:</label>
-                    <input type="text" id="inputNote" placeholder="Nueva Nota...">
-                </div>
-                <div class="form__option-group">
-                    <label for="listOptions">Lista:</label>
-                    <select name="Lists" id="listOptions">
-                        <option value="" selected>Seleccione una lista</option>
-                    </select>
-                    <button id="addNoteBtn" class="btn--success">Add Note</button>
-                </div>
-            </div>
-            
-            <!-- botones list -->
-            <div class="buttons-lists-container" id="btnListsAll">
-                <div class="buttons-lists__group">
-                    <button class="btnActive" id="btnAll"> All </button>
-                    <button id="btnNoList" data-id="0"> No List </button>
-                </div>
-                <div class="buttons-lists__group" id="btnLists">
-                    <!-- <button> Ejemplo </button> -->
-                </div>
-            </div>
-            
-            <!-- notas -->
-            <ul class="notes-container" id="notesContainer">
-                <li class="note">
-                    <p class="italic">Vacío: inserte una nota</p>
-                </li>
-            </ul>
-
+          <button id="btnListEdit">Administrar Listas</button>
         </div>
+
+        <!-- from -->
+        <div class="form">
+          <div class="form__text-group">
+            <label for="inputNote">Nota:</label>
+            <input type="text" id="inputNote" placeholder="Nueva Nota..." />
+          </div>
+          <div class="form__option-group">
+            <label for="listOptions">Lista:</label>
+            <select name="Lists" id="listOptions">
+              <option value="" selected>Seleccione una lista</option>
+            </select>
+            <button id="addNoteBtn" class="btn--success">Add Note</button>
+          </div>
+        </div>
+
+        <!-- botones list -->
+        <div class="buttons-lists-container" id="btnListsAll">
+          <div class="buttons-lists__group">
+            <button class="btnActive" id="btnAll">All</button>
+            <button id="btnNoList" data-id="0">No List</button>
+          </div>
+          <div class="buttons-lists__group" id="btnLists">
+            <!-- <button> Ejemplo </button> -->
+          </div>
+        </div>
+
+        <!-- notas -->
+        <ul class="notes-container" id="notesContainer">
+          <li class="note">
+            <p class="italic">Vacío: inserte una nota</p>
+          </li>
+        </ul>
+      </div>
     </main>
 
     <!-- FOOTER -->
 
-    <footer>
-    </footer>
+    <footer></footer>
 
     <!-- MODALS -->
 
     <div class="container-modal" id="modalEditLists">
-        <div class="modal">
-            <h2>Administrar Listas</h2>
-            <div class="form form--modal">
+      <div class="modal">
+        <h2>Administrar Listas</h2>
+        <div class="form form--modal">
+          <div class="form--modal__newList">
+            <h3>Crear Nueva Lista</h3>
+            <label for="inputNewList">Nueva Lista:</label>
+            <input type="text" id="inputNewList" />
+            <button class="btn--success" id="createList" disabled>
+              Crear Lista
+            </button>
+          </div>
 
-                <div class="form--modal__newList">
-                    <h3>Crear Nueva Lista</h3>
-                    <label for="inputNewList">Nueva Lista:</label>
-                    <input type="text" id="inputNewList">
-                    <button class="btn--success" id="createList"  disabled>Crear Lista</button>
-                </div>
+          <div class="form--modal__editList">
+            <h3>Editar o Borrar Lista</h3>
 
-                <div class="form--modal__editList">
-                    <h3>Editar o Borrar Lista</h3>
+            <label for="selectModalLists">Seleccione una lista</label>
+            <select name="" id="selectModalLists"></select>
 
-                    <label for="selectModalLists">Seleccione una lista</label>
-                    <select name="" id="selectModalLists">
-                    </select>
-
-                    <label for="inputEditList">Renombrar :</label>
-                    <input type="text" id="inputEditList">
-                    <p class="italic">List Id : <em id="idListModal">-</em></p>
-                    <div class="">
-                        <button id="updateList" disabled>Actualizar</button>
-                        <button class="btn--danger" id="deleteList" disabled>Borrar Lista</button>
-                    </div>
-                </div>
-
+            <label for="inputEditList">Renombrar :</label>
+            <input type="text" id="inputEditList" />
+            <p class="italic">List Id : <em id="idListModal">-</em></p>
+            <div class="">
+              <button id="updateList" disabled>Actualizar</button>
+              <button class="btn--danger" id="deleteList" disabled>
+                Borrar Lista
+              </button>
             </div>
-            <button class="btn--danger" id="btnCloseModalEditLists">Cerrar</button>
+          </div>
         </div>
+        <button class="btn--danger" id="btnCloseModalEditLists">Cerrar</button>
+      </div>
     </div>
 
     <div class="container-modal" id="modalEditNote">
-        <div class="modal">
-            <h2>Editar Nota</h2>
+      <div class="modal">
+        <h2>Editar Nota</h2>
 
-            <div class="form form--modal">
+        <div class="form form--modal">
+          <div class="form--modal__editTask">
+            <label for="inputEditNote">Editar:</label>
+            <input type="text" id="inputEditNote" />
 
-                <div class="form--modal__editTask">
+            <p class="italic">Id Note : <span id="idNoteModal">-</span></p>
 
-                    <label for="inputEditNote">Editar:</label>
-                    <input type="text" id="inputEditNote">
-                    
-                    <p class="italic">Id Note : <span id="idNoteModal">-</span></p> 
+            <label for="listOptionsModalEditNote">Editar Lista:</label>
+            <select name="Lists" id="listOptionsModalEditNote">
+              <option value="" selected>Seleccione una lista</option>
+            </select>
 
-                    <label for="listOptionsModalEditNote">Editar Lista:</label>
-                    <select name="Lists" id="listOptionsModalEditNote">
-                        <option value="" selected>Seleccione una lista</option>
-                    </select>
-
-                    <button id="updateNote">Actualizar</button>
-
-                </div>
-
-            </div>
-            
-            <button class="btn--danger" id="closeModalEditNote">cerrar</button>
+            <button id="updateNote">Actualizar</button>
+          </div>
         </div>
+
+        <button class="btn--danger" id="closeModalEditNote">cerrar</button>
+      </div>
     </div>
 
     <!-- TEMPLATE -->
 
     <template id="noteTemplate">
-
-        <li class="note">
-            <p>Vacío: inserte una nota</p>
-            <div class="note__btnActions">
-                <button class="btn--edit">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn--danger">
-                    <i class="bi bi-trash3"></i>
-                </button>
-            </div>
-        </li>
-
+      <li class="note">
+        <p>Vacío: inserte una nota</p>
+        <div class="note__btnActions">
+          <button class="btn--edit">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn--danger">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>
+      </li>
     </template>
 
     <!-- JS -->
 
+    <script src="theme.js" type="module"></script>
     <script src="app.js" type="module"></script>
-
-</body>
+  </body>
 </html>

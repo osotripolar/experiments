@@ -1,322 +1,386 @@
-/* =============== VARIABLES */
+/* ============= VARIABLES Y DARK THEME ============= */
 
-:root{
-    --color-primary: rgb(1, 50, 155);
-    --color-primary-intense: color-mix(in srgb, var(--color-primary) 50%, rgb(0,0,0));
-    --color-primary-ligth: color-mix(in srgb, var(--color-primary) 10%, rgb(255,255,255));
-    
-    --color-success: rgb(7, 120, 26);
-    --color-danger: rgb(150, 0, 0);
+:root {
+  /* colores primarios y variantes */
+  --color-primary-h: 220;
+  --color-primary-s: 100%;
+  --color-primary-l: 30%;
 
+  --color-primary: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    var(--color-primary-l)
+  );
 
-    /* de este para abajo esta ok */
-    --color-ligth: rgb(255,255,255);
-    --color-ligth-1: rgb(240,240,240);
+  --color-primary-light: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    50%
+  );
+
+  --color-primary-dark: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    20%
+  );
+
+  /* alternative colors */
+  --color-success: rgb(7, 120, 26);
+  --color-danger: rgb(150, 0, 0);
+
+  /* grayscale */
+  --black: hsl(0, 0%, 0%);
+  --gray-05: hsl(0, 0%, 5%);
+  --gray-10: hsl(0, 0%, 10%);
+  --gray-20: hsl(0, 0%, 20%);
+  --gray-25: hsl(0, 0%, 25%);
+  --gray-30: hsl(0, 0%, 30%);
+  --gray-40: hsl(0, 0%, 40%);
+  --gray-50: hsl(0, 0%, 50%);
+  --gray-60: hsl(0, 0%, 60%);
+  --gray-70: hsl(0, 0%, 70%);
+  --gray-75: hsl(0, 0%, 75%);
+  --gray-80: hsl(0, 0%, 80%);
+  --gray-85: hsl(0, 0%, 85%);
+  --gray-90: hsl(0, 0%, 90%);
+  --gray-95: hsl(0, 0%, 95%);
+  --white: hsl(0, 0%, 100%);
 }
 
-*{
-    box-sizing: border-box;
-    font-family: 'Segoe UI';
+html {
+  --bg-dark: var(--white);
+  --bg: var(--gray-95);
+  --bg-light: var(--gray-90);
+
+  --text: var(--gray-05);
+  --text-muted: var(--gray-25);
+
+  --color-card-bg: var(--gray-95);
+  --color-card-title: var(--black);
+  --color-link: var(--color-primary);
 }
 
-body{
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    width: 100%;
-    margin: 0;
+html.dark {
+  --bg-dark: var(--black);
+  --bg: var(--gray-05);
+  --bg-light: var(--gray-10);
 
-    background-color: var(--color-ligth-1);
+  --text: var(--gray-95);
+  --text-muted: var(--gray-75);
+  --color-link: var(--color-primary-light);
+
+  --color-card-bg: var(--gray-10);
+  --color-card-title: var(--white);
 }
 
 /* =============== ESTILOS GENERALES */
 
-button{
-    padding: 5px 5px;
-    
-    background-color: var(--color-primary);
-    color: var(--color-ligth);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI";
 }
 
-button:disabled{
-    cursor: not-allowed;
-    opacity: 0.6;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  width: 100%;
+  margin: 0;
+
+  background-color: var(--bg);
+  color: var(--text);
 }
 
-a{
-    text-decoration: none;
+button {
+  padding: 5px 5px;
+
+  background-color: var(--color-primary);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-ul{
-    padding: 0;
-    margin: 0;
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.container{
-    width: 1420px;
-    max-width: 95%;
-    margin: auto;
+a {
+  text-decoration: none;
+}
+
+input,
+select {
+  background-color: var(--bg-dark);
+  color: var(--text-muted);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 1420px;
+  max-width: 95%;
+  margin: auto;
 }
 
 /* buttons */
 
-.btnActive{
-    background-color: var(--color-primary-intense);
+.btnActive {
+  background-color: var(--color-primary-dark);
 }
 
-.btn--success{
-    background-color: var(--color-success);
+.btn--success {
+  background-color: var(--color-success);
 }
 
-.btn--danger{
-    background-color: var(--color-danger);
-    padding: 5px 8px;
+.btn--danger {
+  background-color: var(--color-danger);
+  padding: 5px 8px;
 }
 
-.btn--edit{
-    padding: 5px 8px;
-    background-color: rgb(80, 80, 80);
+.btn--edit {
+  padding: 5px 8px;
+  background-color: rgb(80, 80, 80);
 }
 
 /* =============== SECCIONES */
 
-/* nav */
+/* NAV */
 
-nav{
-    height: 80px;
-    background-color: var(--color-primary);
+nav {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--white);
 }
 
-.container-nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.container-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-nav a{
-    color: var(--color-ligth);
+nav h1 {
+  color: var(--white);
+}
+
+nav input {
+  display: none;
+}
+
+nav i {
+  font-size: 30px;
+  cursor: pointer;
 }
 
 /* main */
 
-main{
-    flex: 1;
-    text-align: center;
+main {
+  flex: 1;
+  text-align: center;
 }
 
-.main-header{
-    margin-bottom: 16px;
+.main-header {
+  margin-bottom: 16px;
 }
 
-.main-header button{
-    padding: 5px 10px;
-    background-color: rgb(0, 0, 0);
+.main-header button {
+  padding: 5px 10px;
+  background-color: rgb(0, 0, 0);
 }
-
 
 /* =============== ELEMENTOS */
 
-
 /* form */
 
-.form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    gap: 12px;
-    margin: 0;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+  margin: 0;
 
-    background-color: var(--color-ligth);
-    box-shadow: 0 3px 6px rgba( 0, 0, 0 , 0.2);
-    border-radius: 5px;
-    padding: 18px 12px;
+  background-color: var(--bg-light);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 18px 12px;
 }
 
-.form__text-group{
-    display: flex;
-    gap: 6px;
+.form__text-group {
+  display: flex;
+  gap: 6px;
 
-    width: 100%;
+  width: 100%;
 }
 
-.form__text-group input{
-    flex: 1;
+.form__text-group input {
+  flex: 1;
 }
 
-.form__option-group{
-    display: flex;
-    gap: 6px;
-    width: 100%;
+.form__option-group {
+  display: flex;
+  gap: 6px;
+  width: 100%;
 }
 
-.form__option-group select{
-    flex: 1;
+.form__option-group select {
+  flex: 1;
 }
-
 
 /* modal */
 
-.container-modal{
-    position: fixed;
+.container-modal {
+  position: fixed;
 
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
 
-    transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
-.container-modal.show{
-    opacity: 1;
-    pointer-events: auto;
-    text-align: center;
+.container-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+  text-align: center;
 }
 
-.modal{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 50px;
 
-    max-width: 90%;
-    max-height: 80%;
-    width: 600px;
-    /* height: 550px; */
-    padding: 18px 25px;
+  max-width: 90%;
+  width: 600px;
+  padding: 18px 25px;
 
-    background-color: var(--color-ligth-1);
-    box-shadow: 0 0 8px rgba(100, 100, 100, 1);
-    border-radius: 20px;
+  background-color: var(--bg-dark);
+  box-shadow: 0 0 8px rgba(100, 100, 100, 1);
+  border-radius: 20px;
 }
 
-
-.form--modal{
-    border-radius: 20px;
-    width: 100%;
-
+.form--modal {
+  border-radius: 20px;
+  width: 100%;
 }
 
-.form--modal button{
-    width: fit-content;
-    padding: 5px 15px;
+.form--modal button {
+  width: fit-content;
+  padding: 5px 15px;
 }
 
-.modal h2{
-    margin: 0;
+.modal h2 {
+  margin: 0;
 }
 
-.form--modal label{
-    margin-right: auto;
+.form--modal label {
+  margin-right: auto;
 }
 
 .form--modal input,
 .form--modal p,
-.form--modal select{
-    margin-top: 5px;
-    margin-bottom: 15px;
+.form--modal select {
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
-.form--modal__newList{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-bottom: 15px;
+.form--modal__newList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 15px;
 
-    border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 
-.form--modal button{
-    margin: auto;
+.form--modal button {
+  margin: auto;
 }
 
-.form--modal__editList{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.form--modal__editList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.form--modal__editTask{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.form--modal__editTask {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 /* notes */
 
-.notes-container{
-    background-color: var(--color-ligth);
-    box-shadow: 0 3px 6px rgba( 0, 0, 0 , 0.2);
-    border-radius: 5px;
+.notes-container {
+  background-color: var(--bg-light);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
-.notes-container > *:not(:last-child){
-    border-bottom: 1px solid black;
+.notes-container > *:not(:last-child) {
+  border-bottom: 1px solid black;
 }
 
-.note{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 5px 10px 5px;
-
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px 10px;
 }
 
-.note:hover{
-    background-color: var(--color-primary-ligth);
+.note:hover {
+  background-color: var(--bg-dark);
 }
 
-.note p{
-    margin: 0;
+.note p {
+  margin: 0;
 }
 
-.note__btnActions{
-    display: flex;
-    gap: 6px;
+.note__btnActions {
+  display: flex;
+  gap: 6px;
 }
 
 /* button lists */
 
-.buttons-lists-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
+.buttons-lists-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
 
-    margin: 16px 0;
-    
+  margin: 16px 0;
 }
 
-.buttons-lists__group{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-
+.buttons-lists__group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.buttons-lists__group button{
-    padding: 5px 10px;
+.buttons-lists__group button {
+  padding: 5px 10px;
 }
 
 /* =============== EXTRAS: (e inspirados en Bootstrap) */
 
-
-i{
-    pointer-events: none;
+i {
+  pointer-events: none;
 }
 
-
-.italic{
-    font-style: italic;
+.italic {
+  font-style: italic;
 }
