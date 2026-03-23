@@ -1,133 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Experiments</title>
     <!-- iconos -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <!-- css -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <!-- js : theme -->
     <script>
-        if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.classList.add("dark");
-        }
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+      }
     </script>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav>
-        <div class="container container-nav">
-            <a href="/">
-                <h1>Oso Tripolar</h1>
-            </a>
-            
-            <label for="inputTheme">
-                <i class="bi bi-moon-fill" id="iconTheme"></i>
-            </label>
-            <input type="checkbox" id="inputTheme" aria-label="Cambiar tema">
-            
-        </div>
+      <div class="container container-nav">
+        <a href="/">
+          <h1>Oso Tripolar</h1>
+        </a>
+
+        <label for="inputTheme">
+          <i class="bi bi-moon-fill" id="iconTheme"></i>
+        </label>
+        <input type="checkbox" id="inputTheme" aria-label="Cambiar tema" />
+      </div>
     </nav>
 
     <main>
-        <div class="container container-main">
-
-            <div class="title">
-                    <h1>Bienvenidos a mis Experimentos</h1>
-                <p>En esta web te mostraré diferentes experimentos o tutoriales que he realizado con sus detalles</p>
-            </div>
-            
-            <div class="cards-container">
-                
-                <div class="card">
-                    
-                    <div class="card__head">
-                        <h4 class="card__title">Modal</h4>
-                        <p class="card__text">Ejercicio donde hemos preparado un modal que aparece al darle click y desaparece con otro botón con un efecto agradable</p>
-                    </div>
-                    <div class="card__body">
-                        <h5>Aprendí</h5>
-                        <ul>
-                            <li>CSS: Positon Fixed</li>
-                            <li>CSS: Opacity</li>
-                            <li>CSS: Pointer Events</li>
-                            <li>CSS: Transition</li>
-                        </ul>
-                    </div>
-                    <div class="card__footer">
-                        <span> Me guié de este video <a href="https://youtu.be/XH5OW46yO8I?si=u4vno7pjXmUERJpn" target="_blank">Tutorial</a></span>
-                        <a class="card__link" href="modal/">Visitar sitio</a>
-                    </div>
-                    
-                </div>
-
-                <div class="card">
-                    
-                    <div class="card__head">
-                        <h4 class="card__title">BEM</h4>
-                        <p class="card__text">Ejercicio donde preparamos elementos con la metodología BEM</p>
-                    </div>
-                    <div class="card__body">
-                        <h5>Aprendí</h5>
-                        <ul>
-                            <li>CSS: Flex-wrap</li>
-                            <li>CSS: Uso de imagenes</li>
-                        </ul>
-                    </div>
-                    <div class="card__footer">
-                        <span> Me guié de este video <a href="https://youtu.be/6LUz0MnNCiA?si=r8hvyUDw53aleP_F" target="_blank">Tutorial</a></span>
-                        <a class="card__link" href="bem/">Visitar sitio</a>
-                    </div>
-                    
-                </div>
-
-                <div class="card">
-                    
-                    <div class="card__head">
-                        <h4 class="card__title">DarkT Theme</h4>
-                        <p class="card__text">Ejercicio donde creo una interfaz para el modo oscuro</p>
-                    </div>
-                    <div class="card__body">
-                        <h5>Aprendí</h5>
-                        <ul>
-                            <li>HTML: uso el uso del input de tipo checkbox y sus propiedades</li>
-                            <li>CSS: aprendí a usar variables de color en contexto de temas de UI</li>
-                        </ul>
-                    </div>
-                    <div class="card__footer">
-                        <span> Me guié de este video <a href="https://www.youtube.com/watch?v=OCO2FTVapSo" target="_blank">Tutorial</a></span>
-                        <a class="card__link" href="darkTheme/">Visitar sitio</a>
-                    </div>
-                    
-                </div>
-
-                <div class="card">
-                    
-                    <div class="card__head">
-                        <h4 class="card__title">Dinamic List</h4>
-                        <p class="card__text">Ejercicio de lista dinámica</p>
-                    </div>
-                    <div class="card__body">
-                        <h5>Aprendí</h5>
-                        <ul>
-                            <li>xxx</li>
-                            <li>xxx</li>
-                        </ul>
-                    </div>
-                    <div class="card__footer">
-                        <a class="card__link" href="dinamic-list/">Visitar sitio</a>
-                    </div>
-                    
-                </div>
-
-            </div>
-            
-            
+      <div class="container container-main">
+        <div class="title">
+          <h1>Bienvenidos a mis Experimentos</h1>
+          <p>
+            En esta web te mostraré diferentes experimentos o tutoriales que he
+            realizado con sus detalles
+          </p>
         </div>
 
-        <script src="app.js"></script>
+        <div class="cards-container">
+          <div class="card">
+            <div class="card__head">
+              <h4 class="card__title">Modal</h4>
+              <p class="card__text">
+                Ejercicio donde hemos preparado un modal que aparece al darle
+                click y desaparece con otro botón con un efecto agradable
+              </p>
+            </div>
+            <div class="card__body">
+              <h5>Aprendí</h5>
+              <ul>
+                <li>CSS: Positon Fixed</li>
+                <li>CSS: Opacity</li>
+                <li>CSS: Pointer Events</li>
+                <li>CSS: Transition</li>
+              </ul>
+            </div>
+            <div class="card__footer">
+              <span>
+                Me guié de este video
+                <a
+                  href="https://youtu.be/XH5OW46yO8I?si=u4vno7pjXmUERJpn"
+                  target="_blank"
+                  >Tutorial</a
+                ></span
+              >
+              <a class="card__link" href="modal/">Visitar sitio</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__head">
+              <h4 class="card__title">BEM</h4>
+              <p class="card__text">
+                Ejercicio donde preparamos elementos con la metodología BEM
+              </p>
+            </div>
+            <div class="card__body">
+              <h5>Aprendí</h5>
+              <ul>
+                <li>CSS: Flex-wrap</li>
+                <li>CSS: Uso de imagenes</li>
+              </ul>
+            </div>
+            <div class="card__footer">
+              <span>
+                Me guié de este video
+                <a
+                  href="https://youtu.be/6LUz0MnNCiA?si=r8hvyUDw53aleP_F"
+                  target="_blank"
+                  >Tutorial</a
+                ></span
+              >
+              <a class="card__link" href="bem/">Visitar sitio</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__head">
+              <h4 class="card__title">DarkT Theme</h4>
+              <p class="card__text">
+                Ejercicio donde creo una interfaz para el modo oscuro
+              </p>
+            </div>
+            <div class="card__body">
+              <h5>Aprendí</h5>
+              <ul>
+                <li>
+                  HTML: uso el uso del input de tipo checkbox y sus propiedades
+                </li>
+                <li>
+                  CSS: aprendí a usar variables de color en contexto de temas de
+                  UI
+                </li>
+              </ul>
+            </div>
+            <div class="card__footer">
+              <span>
+                Me guié de este video
+                <a
+                  href="https://www.youtube.com/watch?v=OCO2FTVapSo"
+                  target="_blank"
+                  >Tutorial</a
+                ></span
+              >
+              <a class="card__link" href="darkTheme/">Visitar sitio</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__head">
+              <h4 class="card__title">Dinamic List</h4>
+              <p class="card__text">Ejercicio de lista dinámica</p>
+            </div>
+            <div class="card__body">
+              <h5>Aprendí</h5>
+              <ul>
+                <li>xxx</li>
+                <li>xxx</li>
+              </ul>
+            </div>
+            <div class="card__footer">
+              <a class="card__link" href="dinamic-list/">Visitar sitio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="app.js"></script>
     </main>
-</body>
+  </body>
 </html>

@@ -1,190 +1,238 @@
 /* ============= VARIABLES Y DARK THEME ============= */
 
-:root{
-    --color-dark : rgb(0, 0, 0);
-    --color-dark-1 : rgb(64, 64, 64);
-    --color-dark-2 : rgb(43, 43, 43);
-    --color-ligth : rgb(255,255,255);
-    --color-ligth-1 : rgb(245,245,245);
-    --color-primary: rgb(1, 50, 155);
-    --color-primary-ligth: color-mix(in srgb, var(--color-primary) 50%, white);
+:root {
+  /* colores primarios y variantes */
+  --color-primary-h: 220;
+  --color-primary-s: 100%;
+  --color-primary-l: 30%;
 
-    --color-bg : rgb(255,255,255);
-    --color-text : var(--color-dark-1);
-    --color-title : var(--color-dark);
+  --color-primary: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    var(--color-primary-l)
+  );
 
-    --color-block-bg : var(--color-primary);
-    --color-block-text : var(--color-ligth);
-    --color-block-title : var(--color-ligth);
+  --color-primary-light: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    50%
+  );
 
-    --color-card-bg : var(--color-ligth-1);
-    --color-card-text : var(--color-dark-1);
-    --color-card-title : var(--color-dark);
+  --color-primary-dark: hsl(
+    var(--color-primary-h),
+    var(--color-primary-s),
+    20%
+  );
+
+  /* grayscale */
+  --black: hsl(0, 0%, 0%);
+  --gray-05: hsl(0, 0%, 5%);
+  --gray-10: hsl(0, 0%, 10%);
+  --gray-20: hsl(0, 0%, 20%);
+  --gray-25: hsl(0, 0%, 25%);
+  --gray-30: hsl(0, 0%, 30%);
+  --gray-40: hsl(0, 0%, 40%);
+  --gray-50: hsl(0, 0%, 50%);
+  --gray-60: hsl(0, 0%, 60%);
+  --gray-70: hsl(0, 0%, 70%);
+  --gray-75: hsl(0, 0%, 75%);
+  --gray-80: hsl(0, 0%, 80%);
+  --gray-85: hsl(0, 0%, 85%);
+  --gray-90: hsl(0, 0%, 90%);
+  --gray-95: hsl(0, 0%, 95%);
+  --white: hsl(0, 0%, 100%);
 }
 
-.dark{
-    --color-bg: var(--color-dark-2);
-    --color-title: var(--color-ligth);
-    --color-text: var(--color-ligth);
-    
-    --color-card-text : var(--color-ligth);
-    --color-card-title : var(--color-ligth);
-    --color-card-bg : var(--color-dark-1);
+html {
+  --bg-dark: var(--white);
+  --bg: var(--gray-95);
+  --bg-light: var(--gray-10);
+
+  --text: var(--gray-05);
+  --text-muted: var(--gray-25);
+
+  --color-card-bg: var(--gray-95);
+  --color-card-title: var(--black);
+  --color-link: var(--color-primary);
 }
 
-h1,h2,h3,h4,h5,h6{
-    color: var(--color-title);
-    margin: 0;
-}
+html.dark {
+  --bg-dark: var(--black);
+  --bg: var(--gray-05);
+  --bg-light: var(--gray-90);
 
-button{
-    color: var(--color-ligth)
-}
+  --text: var(--gray-95);
+  --text-muted: var(--gray-75);
+  --color-link: var(--color-primary-light);
 
-a{
-    text-decoration: none;
-    color: var(--color-primary-ligth);
-    cursor: pointer;
+  --color-card-bg: var(--gray-10);
+  --color-card-title: var(--white);
 }
 
 /* ============= ESTILOS GENERALES ============= */
 
-body{
-    min-height: 100dvh;
-    width: 100%; /* Lo tenía en dvw - chatgpt me lo recomendó con 100% */ 
-    margin: 0;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    font-family: 'Segoe UI';
-    
-    color: var(--color-text);
-    background-color: var(--color-bg);
-    transition: all 0.5s;
+body {
+  min-height: 100dvh;
+  width: 100%;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "Segoe UI";
+
+  color: var(--text);
+  background-color: var(--bg);
+  transition: all 0.5s;
 }
 
-.container{
-    width: 1400px;
-    max-width: 90%;
-    height: 100%;
-    margin: auto;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+button {
+  color: var(--white);
+}
+
+p,
+span {
+  color: var(--text-muted);
+}
+
+.container {
+  width: 1400px;
+  height: 100%;
+  max-width: 90%;
+  margin: auto;
 }
 
 /* ============= BLOQUES ============= */
 
 /* NAV */
 
-nav{
-    height: 100px;
-    width: 100%;
-    background-color: var(--color-block-bg);
-    color: var(--color-block-text);
+nav {
+  height: 100px;
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--white);
 }
 
-.container-nav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-nav h1{
-    color: var(--color-block-text);
+nav h1 {
+  color: var(--white);
 }
 
-nav input{
-    display: none;
+nav input {
+  display: none;
 }
 
-nav i{
-    font-size: 30px;
-    cursor: pointer;
+nav i {
+  font-size: 30px;
+  cursor: pointer;
 }
-
 
 /* MAIN */
 
-main{
-    width: 100%;
-    flex: 1;
-    text-align: center;
-    margin-bottom: 40px;
+main {
+  width: 100%;
+  flex: 1;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-main h1{
-    margin: 25px;
+main h1 {
+  margin: 25px;
+}
+
+main li {
+  color: var(--text-muted);
+  margin-bottom: 5px;
 }
 
 /* ============= COMPONENTES ============= */
 
 /* ===== CARDS ===== */
 
+.cards-container {
+  width: 100%;
 
-.cards-container{
-    width: 100%;
-    
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    margin-top: 40px;
-    text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 40px;
+  text-align: center;
 }
 
-.card{
-    width: 250px;
-    height: 420px;
-    padding: 25px;
+.card {
+  width: 250px;
+  height: 420px;
+  padding: 25px;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    border-radius: 20px;
-    background-color: var(--color-card-bg);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s;
+  border-radius: 20px;
+  background-color: var(--color-card-bg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s;
 }
 
-.card:hover{
-    transform: translateY(-3px);
+.card:hover {
+  transform: translateY(-3px);
 }
 
-.card__title{
-    margin: 0 0 12px 0;
-    font-size: 24px;
-    color: var(--color-card-title);
+.card__title {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  color: var(--color-card-title);
 }
 
-.card__text{
-    margin: 0 0 15px 0;
-    height: 100px;
+.card__text {
+  margin: 0 0 15px 0;
+  height: 100px;
 }
 
-.card__body{
-    text-align: start;
+.card__body {
+  text-align: start;
 }
 
-.card__footer{
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.card__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.card__link{
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    border-radius: 5px;
-    
-    color: var(--color-ligth);
-    background-color: var(--color-primary);
-    
-    
-    height: 28px;
-    width: 100px;
-    margin-top: 8px;
+.card__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 5px;
+
+  background-color: var(--color-primary);
+  color: var(--white);
+
+  height: 28px;
+  width: 100px;
+  margin-top: 8px;
 }
