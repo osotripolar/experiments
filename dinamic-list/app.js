@@ -9,6 +9,7 @@ import {
   postNote,
   updateNote,
   deleteNote,
+  getInfoTest
 } from "./dataProvider.js";
 
 let localNotes;
@@ -390,7 +391,7 @@ async function initializeData() {
 }
 
 export async function init() {
-  console.log('estamos con los datos de:', localStorage.getItem('dataConfigOrigin'))
+  getInfoTest()
   await initializeData();
   render();
 }
