@@ -4,3 +4,10 @@ map
 filter
 delegacion de eventos
 operador logico || y ternario :
+
+
+
+
+INICIO:
+
+ver en donde estamos, si no estamos en ningún lugar lo asignamos a Mock en LocalStorage

@@ -26,136 +26,103 @@ export function getInfoTest() {
 
 }
 
-// EXPERIMENT ARRUIBA ===================================
+// =======================
 
-// DUMMY DATA
+import {
+  getNotes as getNotesMock,
+  postNote as postNoteMock,
+  updateNote as updateNoteMock,
+  deleteNote as deleteNoteMock,
+  getLists as getListsMock,
+  postList as postListMock,
+  updateList as updateListMock,
+  deleteList as deleteListMock
+} from "./data-origins/mockData.js";
 
-let notes = [
-  {
-    "id": 1,
-    "list_id": 1,
-    "content": "nota en A"
-  },
-  {
-    "id": 2,
-    "list_id": 2,
-    "content": "nota en B"
-  },
-  {
-    "id": 3,
-    "list_id": null,
-    "content": "nota suelta"
-  }
-]
-
-let lists = [
-  {
-    "id": "1",
-    "title": "grupo a"
-  },
-  {
-    "id": "2",
-    "title": "grupo b"
-  }
-]
-
-let countIdNotes = notes.length
-let countIdList = lists.length
-
-// AUXILIAR FUNCTIONS
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// FAKE FETCH : NOTES
-
-export async function updateNote(newNote) {
-
-  const index = notes.findIndex(note => note.id == newNote.id)
-
-  if (index == -1) {
-    console.log('algo falló')
-  } else {
-    notes[index] = newNote
-  }
-}
-
-export async function postNote(note) {
-
-  await delay(300)
-
-  countIdNotes++
-  const newNote = { ...note, id: countIdNotes }
-
-  notes.push(newNote)
-}
+// NOTES
 
 export async function getNotes() {
 
-  await delay(300)
+  switch (localStorage.getItem('dataConfigOrigin')) {
 
-  return [...notes]
+    case "mock":
+      return await getNotesMock()
+
+  }
+}
+
+export async function postNote(newNote) {
+
+  switch (localStorage.getItem('dataConfigOrigin')) {
+
+    case "mock":
+      return await postNoteMock(newNote)
+
+  }
+}
+
+export async function updateNote(newData) {
+
+  switch (localStorage.getItem('dataConfigOrigin')) {
+
+    case "mock":
+      return await updateNoteMock(newData)
+
+  }
 }
 
 export async function deleteNote(idNote) {
 
-  const index = notes.findIndex(note => note.id == idNote)
+  switch (localStorage.getItem('dataConfigOrigin')) {
 
-  if (index == -1) {
-    console.log('algo falló')
-  } else {
-    notes.splice(index, 1)
+    case "mock":
+      return await deleteNoteMock(idNote)
+
   }
-
 }
 
-// FAKE FETCH: LISTS
-
-export async function updateList(newList) {
-
-  const index = lists.findIndex(list => list.id == newList.id)
-
-  if (index == -1) {
-    console.log('algo falló')
-  } else {
-    lists[index] = newList
-  }
-
-}
+// LISTS
 
 export async function getLists() {
 
-  await delay(300)
+  switch (localStorage.getItem('dataConfigOrigin')) {
 
-  return [...lists]
+    case "mock":
+      return await getListsMock()
+
+  }
+
+}
+
+export async function postList(newListName) {
+
+  switch (localStorage.getItem('dataConfigOrigin')) {
+
+    case "mock":
+      return await postListMock(newListName)
+
+  }
+
+}
+
+export async function updateList(newListData) {
+
+  switch (localStorage.getItem('dataConfigOrigin')) {
+
+    case "mock":
+      return await updateListMock(newListData)
+
+  }
+
 }
 
 export async function deleteList(idList) {
 
-  const index = lists.findIndex(list => list.id == idList)
+  switch (localStorage.getItem('dataConfigOrigin')) {
 
-  if (index == -1) {
-    console.log('algo falló')
-  } else {
-    lists.splice(index, 1)
+    case "mock":
+      return await deleteListMock(idList)
+
   }
-
-  // tambien borramos sus notas asociadas
-  notes = notes.filter(note => note.list_id != idList);
-
-
-}
-
-export async function postList(listName) {
-
-  countIdList++
-
-  const newList = {
-    id: countIdList,
-    title: listName
-  }
-
-  lists.push(newList)
 
 }
