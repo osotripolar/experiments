@@ -6,23 +6,17 @@
   --color-primary-s: 100%;
   --color-primary-l: 30%;
 
-  --color-primary: hsl(
-    var(--color-primary-h),
-    var(--color-primary-s),
-    var(--color-primary-l)
-  );
+  --color-primary: hsl(var(--color-primary-h),
+      var(--color-primary-s),
+      var(--color-primary-l));
 
-  --color-primary-light: hsl(
-    var(--color-primary-h),
-    var(--color-primary-s),
-    50%
-  );
+  --color-primary-light: hsl(var(--color-primary-h),
+      var(--color-primary-s),
+      50%);
 
-  --color-primary-dark: hsl(
-    var(--color-primary-h),
-    var(--color-primary-s),
-    20%
-  );
+  --color-primary-dark: hsl(var(--color-primary-h),
+      var(--color-primary-s),
+      20%);
 
   /* alternative colors */
   --color-success: rgb(7, 120, 26);
@@ -89,6 +83,8 @@ body {
 
   background-color: var(--bg);
   color: var(--text);
+
+  transition: all 0.7s ease;
 }
 
 button {
@@ -329,7 +325,7 @@ main {
   border-radius: 5px;
 }
 
-.notes-container > *:not(:last-child) {
+.notes-container>*:not(:last-child) {
   border-bottom: 1px solid black;
 }
 

@@ -1,3 +1,5 @@
+import { } from "./config.js";
+
 import {
   getLists,
   deleteList,
@@ -120,7 +122,7 @@ btnUpdateNote.addEventListener("click", async () => {
   init();
 });
 
-closeModalNote.addEventListener("click", (e) => {
+closeModalNote.addEventListener("click", () => {
   containerModalEditNote.classList.remove("show");
 });
 
@@ -387,7 +389,8 @@ async function initializeData() {
   }
 }
 
-async function init() {
+export async function init() {
+  console.log('estamos con los datos de:', localStorage.getItem('dataConfigOrigin'))
   await initializeData();
   render();
 }
