@@ -9,7 +9,6 @@ import {
   postNote,
   updateNote,
   deleteNote,
-  getInfoTest
 } from "./dataProvider.js";
 
 let localNotes;
@@ -77,8 +76,6 @@ notesContainer.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("btn--danger")) {
-    console.log("xd");
-
     const idNote = e.target.closest("li").dataset.id;
 
     deleteNote(idNote);
@@ -391,7 +388,6 @@ async function initializeData() {
 }
 
 export async function init() {
-  getInfoTest()
   await initializeData();
   render();
 }

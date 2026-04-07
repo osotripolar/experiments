@@ -41,7 +41,13 @@ import {
 
 import {
   getNotes as getNotesLocal,
-  getLists as getListsLocal
+  deleteNote as deleteNoteLocal,
+  updateNote as updateNoteLocal,
+  postNote as postNoteLocal,
+  getLists as getListsLocal,
+  postList as postListLocal,
+  deleteList as deleteListLocal,
+  updateList as updateListLocal,
 } from "./data-origins/localData.js"
 
 // NOTES
@@ -69,6 +75,9 @@ export async function postNote(newNote) {
     case "mock":
       return await postNoteMock(newNote)
 
+    case "localStorage":
+      return await postNoteLocal(newNote)
+
     default:
       return await postNoteMock(newNote)
 
@@ -82,6 +91,9 @@ export async function updateNote(newData) {
     case "mock":
       return await updateNoteMock(newData)
 
+    case "localStorage":
+      return await updateNoteLocal(newData)
+
     default:
       return await updateNoteMock(newData)
 
@@ -94,6 +106,9 @@ export async function deleteNote(idNote) {
 
     case "mock":
       return await deleteNoteMock(idNote)
+
+    case "localStorage":
+      return await deleteNoteLocal(idNote)
 
     default:
       return await deleteNoteMock(idNote)
@@ -127,6 +142,9 @@ export async function postList(newListName) {
     case "mock":
       return await postListMock(newListName)
 
+    case "localStorage":
+      return await postListLocal(newListName)
+
     default:
       return await postListMock(newListName)
 
@@ -141,6 +159,9 @@ export async function updateList(newListData) {
     case "mock":
       return await updateListMock(newListData)
 
+    case "localStorage":
+      return await updateListLocal(newListData)
+
     default:
       return await updateListMock(newListData)
 
@@ -154,6 +175,9 @@ export async function deleteList(idList) {
 
     case "mock":
       return await deleteListMock(idList)
+
+    case "localStorage":
+      return await deleteListLocal(idList)
 
     default:
       return await deleteListMock(idList)
