@@ -1,31 +1,3 @@
-// PRIMERO HAY QUE VERIFICAR QUE MARCÓ EL USUARIO
-
-import { paintData as mockData } from "./data-origins/mockData.js"
-import { paintData as localData } from "./data-origins/localData.js"
-import { paintData as apiData } from "./data-origins/apiData.js"
-
-export function getInfoTest() {
-
-  switch (localStorage.getItem('dataConfigOrigin')) {
-
-    case "mock":
-      console.log(mockData())
-      break;
-
-    case "api":
-      console.log(apiData())
-      break;
-
-    case "localStorage":
-      console.log(localData())
-      break;
-
-    default:
-      console.log('mi webo')
-  }
-
-}
-
 // =======================
 
 import {
