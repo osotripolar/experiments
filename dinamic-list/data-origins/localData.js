@@ -77,8 +77,12 @@ export async function getNotes() {
     console.log('creamos datos fake')
   }
 
-  return JSON.parse(localStorage.getItem('localNotes'))
+  const resObj = {
+    ok: true,
+    json: async () => JSON.parse(localStorage.getItem('localNotes'))
+  }
 
+  return resObj
 
 }
 
@@ -142,9 +146,12 @@ export async function getLists() {
     console.log('creamos datos fake')
   }
 
-  return JSON.parse(localStorage.getItem('localLists'))
+  const objRes = {
+    ok: true,
+    json: async () => JSON.parse(localStorage.getItem('localLists'))
+  }
 
-
+  return objRes
 }
 
 export async function postList(newList) {

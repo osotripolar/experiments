@@ -22,6 +22,10 @@ import {
   updateList as updateListLocal,
 } from "./data-origins/localData.js"
 
+import {
+  getNotes as getNotesApi
+} from "./data-origins/apiData.js"
+
 // NOTES
 
 export async function getNotes() {
@@ -33,6 +37,9 @@ export async function getNotes() {
 
     case "localStorage":
       return await getNotesLocal()
+
+    case "api":
+      return await getNotesApi()
 
     default:
       return await getNotesMock()

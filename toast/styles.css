@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --dark: #34495E;
+  --ligth: #ffffff;
+  --success: #0abf30;
+  --error: #e24d4c;
+  --warning: #e9bd0c;
+  --info: #3498db;
+}
+
+* {
+  font-family: "Poppins";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  background: var(--dark);
+  gap: 32px;
+}
+
+/* FORM */
+
+.form{
+  text-align: center;
+  width: 400px;
+  color: var(--ligth);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: rgba(0, 0,0,0.5);
+  padding: 30px 20px;
+  border-radius: 10px;
+}
+
+.form button{
+  background-color: black;
+  border: none;
+  color: var(--ligth);
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.form .message,
+.form .tipo{
+  display: flex;
+  gap: 4px;
+}
+
+.form input,
+.form select{
+  flex: 1;
+}
+
+.form label{
+  width: 90px;
+  padding-left: 6px;
+  text-align: right;
+}
+
+/* BOTONES ========================================= */
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.buttons .btn {
+  border: none;
+  color: var(--ligth);
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: var(--color-notification);
+}
+/* COLORES botoenes */
+.btn#success {
+  --color-notification: var(--success);
+}
+
+.btn#error {
+  --color-notification: var(--error);
+}
+
+.btn#warning {
+  --color-notification: var(--warning);
+}
+
+.btn#info {
+  --color-notification: var(--info);
+}

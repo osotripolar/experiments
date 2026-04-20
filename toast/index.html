@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ESTILOS -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="toast.css">
+  <!-- ICONOS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <title>Toast: Exercise</title>
+</head>
+
+<body>
+
+  <!-- ESTO LO CREAMOS CON JS -->
+  <!-- <ul class="notifications"></ul> -->
+
+  <div class="form">
+
+    <h2>Crea tu Toast</h2>
+
+    <div class="message">
+      <label for="inputMessage">Message :</label>
+      <input type="text" id="inputMessage">    
+    </div>
+
+    <div class="tipo">
+      <label for="selectToast">Tipo:</label>
+      <select name="3" id="selectToast">
+        <option selected value="success">success</option>
+        <option value="error">error</option>
+        <option value="warning">warning</option>
+        <option value="info">info</option>
+      </select>
+      <button id="generateToastButton">Generar</button>
+    </div>
+    
+  </div>
+
+  <div class="buttons">
+    <button class="btn" id="success">Success</button>
+    <button class="btn" id="error">Error</button>
+    <button class="btn" id="warning">Warning</button>
+    <button class="btn" id="info">info</button>
+  </div>
+
+  <script src="app.js" type="module"></script>
+</body>
+
+</html>

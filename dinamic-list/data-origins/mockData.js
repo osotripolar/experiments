@@ -42,9 +42,13 @@ function delay(ms) {
 
 export async function getNotes() {
 
-  await delay(300)
+  const xddd = {
+    ok: true,
+    json: async () => notes
+  }
 
-  return [...notes]
+  // return [...notes]
+  return xddd
 }
 
 export async function updateNote(newNote) {
@@ -98,7 +102,12 @@ export async function getLists() {
 
   await delay(300)
 
-  return [...lists]
+  const ressss = {
+    ok: true,
+    json: async () => lists
+  }
+
+  return ressss
 }
 
 export async function deleteList(idList) {

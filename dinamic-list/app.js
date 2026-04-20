@@ -381,10 +381,26 @@ function el(tag, className = undefined, text = undefined) {
 async function initializeData() {
   // traemos los datos paralelamente
   try {
-    [localLists, localNotes] = await Promise.all([getLists(), getNotes()]);
+    const [resLists, resNotes] = await Promise.all([
+      getLists(),
+      getNotes()
+    ]);
+
+    if (!resLists.ok) throw ('fallo .ok de listas')
+    if (!resNotes.ok) throw ('fallo .ok de notas')
+
+    const [LlocalLists, LlocalNotes] = await Promise.all([
+      resLists.json(),
+      resNotes.json()
+    ])
+
+    localLists = LlocalLists
+    localNotes = LlocalNotes
+
   } catch (error) {
     console.log("Error al traer los datos", error);
   }
+
 }
 
 export async function init() {
