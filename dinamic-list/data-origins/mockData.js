@@ -13,6 +13,11 @@ let notes = [
   },
   {
     "id": 3,
+    "list_id": 2,
+    "content": "nota en BBBB"
+  },
+  {
+    "id": 4,
     "list_id": null,
     "content": "nota suelta"
   }
@@ -106,6 +111,10 @@ export async function getLists() {
     ok: true,
     json: async () => lists
   }
+
+  // return {
+  //   ok:false
+  // }
 
   return ressss
 }

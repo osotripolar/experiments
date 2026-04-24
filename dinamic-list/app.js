@@ -1,3 +1,4 @@
+import { createToast } from './toast.js'
 import { } from "./config.js";
 
 import {
@@ -29,9 +30,7 @@ const btnNoList = document.getElementById("btnNoList");
 // moda editar nota
 const containerModalEditNote = document.getElementById("modalEditNote");
 const closeModalNote = document.getElementById("closeModalEditNote");
-const selectOptionsEditNotes = document.getElementById(
-  "listOptionsModalEditNote",
-);
+const selectOptionsEditNotes = document.getElementById("listOptionsModalEditNote");
 const inputEditNote = document.getElementById("inputEditNote");
 const btnUpdateNote = document.getElementById("updateNote");
 const idNoteModal = document.getElementById("idNoteModal");
@@ -46,9 +45,7 @@ const idListModal = document.getElementById("idListModal");
 const btnCreateList = document.getElementById("createList");
 const btnUpdateList = document.getElementById("updateList");
 const btnDeleteList = document.getElementById("deleteList");
-const btnCloseModalEditLists = document.getElementById(
-  "btnCloseModalEditLists",
-);
+const btnCloseModalEditLists = document.getElementById("btnCloseModalEditLists");
 
 // ================= LISTENERS
 
@@ -68,7 +65,7 @@ inputNote.addEventListener("keydown", (e) => {
   if (e.key === "Enter") addNoteBtn.click();
 });
 
-notesContainer.addEventListener("click", (e) => {
+notesContainer.addEventListener("click", async (e) => {
   if (e.target.tagName !== "BUTTON") return;
 
   if (e.target.classList.contains("btn--edit")) {
@@ -79,7 +76,8 @@ notesContainer.addEventListener("click", (e) => {
     const idNote = e.target.closest("li").dataset.id;
 
     deleteNote(idNote);
-    init();
+    await init();
+    filtFilllll(activeButton)
   }
 });
 
@@ -87,7 +85,7 @@ btnListsAll.addEventListener("click", filterViewByList);
 
 // modal note
 
-addNoteBtn.addEventListener("click", () => {
+addNoteBtn.addEventListener("click", async () => {
   if (!inputNote.value) return;
 
   const newNote = {
@@ -100,7 +98,10 @@ addNoteBtn.addEventListener("click", () => {
   // limpiamos el input
   inputNote.value = "";
 
-  init();
+  await init();
+
+  filtFilllll(activeButton)
+
 });
 
 btnUpdateNote.addEventListener("click", async () => {
@@ -117,7 +118,8 @@ btnUpdateNote.addEventListener("click", async () => {
   await updateNote(newData);
 
   closeModalNote.click();
-  init();
+  await init();
+  filtFilllll(activeButton)
 });
 
 closeModalNote.addEventListener("click", () => {
@@ -231,28 +233,37 @@ function fillBtnLists() {
   btnLists.replaceChildren(fragment);
 }
 
-function fillNotes(filteredNotes = undefined) {
-  const fragment = document.createDocumentFragment();
-  const dataFilter = filteredNotes || localNotes;
+async function fillNotes(filteredNotes = undefined) {
 
-  if (dataFilter.length != 0) {
-    dataFilter.forEach((note) => {
-      const noteContent = noteTemplate.content.cloneNode(true);
-      const pNote = noteContent.querySelector("p");
-      const liNote = noteContent.querySelector("li");
+  try {
 
-      pNote.textContent = note.content;
-      liNote.dataset.id = note.id;
-      if (note.list_id) liNote.dataset.idList = note.list_id;
 
-      fragment.appendChild(noteContent);
-    });
-  } else {
-    const message = el("p", "italic", "Vacío: inserte una nota");
-    fragment.appendChild(message);
+    const fragment = document.createDocumentFragment();
+    const dataFilter = filteredNotes || localNotes;
+
+    if (dataFilter.length != 0) {
+      dataFilter.forEach((note) => {
+        const noteContent = noteTemplate.content.cloneNode(true);
+        const pNote = noteContent.querySelector("p");
+        const liNote = noteContent.querySelector("li");
+
+        pNote.textContent = note.content;
+        liNote.dataset.id = note.id;
+        if (note.list_id) liNote.dataset.idList = note.list_id;
+
+        fragment.appendChild(noteContent);
+      });
+    } else {
+      const message = el("p", "italic", "Vacío: inserte una nota");
+      fragment.appendChild(message);
+    }
+
+    notesContainer.replaceChildren(fragment);
+
+  } catch (err) {
+    createToast('warning', 'No se pudo obtener información de esta fuente, intente con otra')
   }
 
-  notesContainer.replaceChildren(fragment);
 }
 
 function fillOptions() {
@@ -291,30 +302,37 @@ function fillOptionsModaLists() {
 // ================= FUNCIONES AUXILIARES
 
 function filterViewByList(e) {
+
   if (!(e.target.tagName === "BUTTON")) return;
-  const pulsedButton = e.target;
 
-  const id = pulsedButton.dataset.id;
+  const id = e.target.dataset.id
+  activeButton = id;
+  filtFilllll(id)
 
-  activeButton = id; //seteamos el botón activo
+}
 
+function filtFilllll(id) {
   if (id) {
+
     let datosFiltrados;
 
     if (id == 0) {
       // con esto renderizamos solo lo que
       datosFiltrados = localNotes.filter((nota) => nota.list_id == null);
     } else {
-      const idBotonPulsado = e.target.dataset.id;
       datosFiltrados = localNotes.filter(
-        (nota) => nota.list_id == idBotonPulsado,
+        (nota) => nota.list_id == id,
       );
     }
     render(datosFiltrados);
+    if (id > 0) {
+      selectOptions.value = id
+    }
   } else {
     render();
   }
 }
+
 
 function setDefaultOptionsModalListsEditOrDelete() {
   // tambien deberíamos de inhabilitar el input correspondiente
@@ -386,21 +404,20 @@ async function initializeData() {
       getNotes()
     ]);
 
-    if (!resLists.ok) throw ('fallo .ok de listas')
-    if (!resNotes.ok) throw ('fallo .ok de notas')
+    if (!resLists.ok) throw ('Hubo un error en el servidor al traer las Listas')
+    if (!resNotes.ok) throw ('Hubo un error en el servidor al traer las Notas')
 
-    const [LlocalLists, LlocalNotes] = await Promise.all([
+    const [lists, notes] = await Promise.all([
       resLists.json(),
       resNotes.json()
     ])
 
-    localLists = LlocalLists
-    localNotes = LlocalNotes
+    localLists = lists
+    localNotes = notes
 
   } catch (error) {
-    console.log("Error al traer los datos", error);
+    createToast('error', error)
   }
-
 }
 
 export async function init() {

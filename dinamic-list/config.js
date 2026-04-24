@@ -1,5 +1,6 @@
 
 import { init } from "./app.js"
+import { createToast } from "./toast.js"
 
 /* =============
 MODAL
@@ -24,6 +25,7 @@ btnConfirmSettings.addEventListener('click', () => {
   localStorage.setItem('dataConfigOrigin', selectOriginData.value)
   btnCloseModalConfig.click()
   init()
+  createToast('info', 'El origen de los datos ha cambiado')
 })
 
 /* =============
