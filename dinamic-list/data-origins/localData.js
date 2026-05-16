@@ -5,17 +5,17 @@ function asignarNotesFake() {
   let notes = [
     {
       "id": 1,
-      "list_id": 1,
+      "id_list": 1,
       "content": "nota en A desde Local"
     },
     {
       "id": 2,
-      "list_id": 2,
+      "id_list": 2,
       "content": "nota en B desde Local"
     },
     {
       "id": 3,
-      "list_id": 2,
+      "id_list": 2,
       "content": "nota en C desde Local"
     },
   ]
@@ -95,7 +95,7 @@ export async function postNote(data) {
 
   const newData = {
     id: localAux.indexNote,
-    list_id: data.list_id,
+    id_list: data.id_list,
     content: data.content
   }
 
@@ -126,7 +126,7 @@ export async function updateNote(noteUpdated) {
 
   localNotes[indexNote] = {
     id: parseInt(noteUpdated.id),
-    list_id: parseInt(noteUpdated.list_id) || null,
+    id_list: parseInt(noteUpdated.id_list) || null,
     content: noteUpdated.content
   }
 
@@ -183,7 +183,7 @@ export async function deleteList(idList) {
   const dataLocalFiltred = localLists.filter((element) => element.id != idList)
   // esta data entonces la actualizamos
 
-  const dataNotesFiltred = localNotes.filter((element) => element.list_id != idList)
+  const dataNotesFiltred = localNotes.filter((element) => element.id_list != idList)
 
   localStorage.setItem('localLists', JSON.stringify(dataLocalFiltred))
   localStorage.setItem('localNotes', JSON.stringify(dataNotesFiltred))

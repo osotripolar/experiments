@@ -23,7 +23,14 @@ import {
 } from "./data-origins/localData.js"
 
 import {
-  getNotes as getNotesApi
+  getNotes as getNotesApi,
+  deleteNote as deleteNoteApi,
+  postNote as postNoteApi,
+  putNote as updateNoteApi,
+  getLists as getListsApi,
+  deleteList as deleteListApi,
+  putList as updateListApi,
+  postList as postListApi
 } from "./data-origins/apiData.js"
 
 // NOTES
@@ -57,6 +64,9 @@ export async function postNote(newNote) {
     case "localStorage":
       return await postNoteLocal(newNote)
 
+    case "api":
+      return await postNoteApi(newNote)
+
     default:
       return await postNoteMock(newNote)
 
@@ -73,6 +83,9 @@ export async function updateNote(newData) {
     case "localStorage":
       return await updateNoteLocal(newData)
 
+    case "api":
+      return await updateNoteApi(newData)
+
     default:
       return await updateNoteMock(newData)
 
@@ -88,6 +101,9 @@ export async function deleteNote(idNote) {
 
     case "localStorage":
       return await deleteNoteLocal(idNote)
+
+    case "api":
+      return await deleteNoteApi(idNote)
 
     default:
       return await deleteNoteMock(idNote)
@@ -107,6 +123,9 @@ export async function getLists() {
     case "localStorage":
       return await getListsLocal()
 
+    case "api":
+      return await getListsApi()
+
     default:
       return await getListsMock()
 
@@ -123,6 +142,9 @@ export async function postList(newListName) {
 
     case "localStorage":
       return await postListLocal(newListName)
+
+    case "api":
+      return await postListApi(newListName)
 
     default:
       return await postListMock(newListName)
@@ -141,6 +163,9 @@ export async function updateList(newListData) {
     case "localStorage":
       return await updateListLocal(newListData)
 
+    case "api":
+      return await updateListApi(newListData)
+
     default:
       return await updateListMock(newListData)
 
@@ -157,6 +182,9 @@ export async function deleteList(idList) {
 
     case "localStorage":
       return await deleteListLocal(idList)
+
+    case "api":
+      return await deleteListApi(idList)
 
     default:
       return await deleteListMock(idList)

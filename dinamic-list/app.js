@@ -1,5 +1,6 @@
 import { createToast } from './toast.js'
 import { } from "./config.js";
+import { asignarNewLinksApi } from "./data-origins/apiData.js"
 
 import {
   getLists,
@@ -41,6 +42,8 @@ const selectModalLists = document.getElementById("selectModalLists");
 const inputEditList = document.getElementById("inputEditList");
 const inputNewList = document.getElementById("inputNewList");
 const idListModal = document.getElementById("idListModal");
+const inputApi = document.getElementById("inputApi")
+const btnSetInputApi = document.getElementById("btnSetInputApi")
 // botones
 const btnCreateList = document.getElementById("createList");
 const btnUpdateList = document.getElementById("updateList");
@@ -75,7 +78,7 @@ notesContainer.addEventListener("click", async (e) => {
   if (e.target.classList.contains("btn--danger")) {
     const idNote = e.target.closest("li").dataset.id;
 
-    deleteNote(idNote);
+    await deleteNote(idNote);
     await init();
     filtFilllll(activeButton)
   }
@@ -83,17 +86,15 @@ notesContainer.addEventListener("click", async (e) => {
 
 btnListsAll.addEventListener("click", filterViewByList);
 
-// modal note
-
 addNoteBtn.addEventListener("click", async () => {
   if (!inputNote.value) return;
 
   const newNote = {
     content: inputNote.value,
-    list_id: selectOptions.value === "" ? null : selectOptions.value,
+    id_list: selectOptions.value === "" ? null : selectOptions.value,
   };
 
-  postNote(newNote);
+  await postNote(newNote);
 
   // limpiamos el input
   inputNote.value = "";
@@ -112,7 +113,7 @@ btnUpdateNote.addEventListener("click", async () => {
   const newData = {
     id: idNewNote,
     content: newText,
-    list_id: newIdList === "" ? null : newIdList,
+    id_list: newIdList === "" ? null : newIdList,
   };
 
   await updateNote(newData);
@@ -126,14 +127,23 @@ closeModalNote.addEventListener("click", () => {
   containerModalEditNote.classList.remove("show");
 });
 
+// input edit lists mode api
+
+btnSetInputApi.addEventListener('click',()=>{
+  asignarNewLinksApi(inputApi.value)
+  inputApi.value = ''
+})
+
 // modal list
 
-btnCreateList.addEventListener("click", () => {
+
+
+btnCreateList.addEventListener("click", async() => {
   if (!inputNewList.value) return;
 
   const newListName = inputNewList.value;
 
-  postList(newListName);
+  await postList(newListName);
   btnCloseModalEditLists.click();
   init();
 });
@@ -180,6 +190,8 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
+
+
 
 // ================= MODALS
 
@@ -237,7 +249,6 @@ async function fillNotes(filteredNotes = undefined) {
 
   try {
 
-
     const fragment = document.createDocumentFragment();
     const dataFilter = filteredNotes || localNotes;
 
@@ -249,7 +260,7 @@ async function fillNotes(filteredNotes = undefined) {
 
         pNote.textContent = note.content;
         liNote.dataset.id = note.id;
-        if (note.list_id) liNote.dataset.idList = note.list_id;
+        if (note.id_list) liNote.dataset.idList = note.id_list;
 
         fragment.appendChild(noteContent);
       });
@@ -262,6 +273,7 @@ async function fillNotes(filteredNotes = undefined) {
 
   } catch (err) {
     createToast('warning', 'No se pudo obtener información de esta fuente, intente con otra')
+    console.log(err)
   }
 
 }
@@ -318,10 +330,10 @@ function filtFilllll(id) {
 
     if (id == 0) {
       // con esto renderizamos solo lo que
-      datosFiltrados = localNotes.filter((nota) => nota.list_id == null);
+      datosFiltrados = localNotes.filter((nota) => nota.id_list == null);
     } else {
       datosFiltrados = localNotes.filter(
-        (nota) => nota.list_id == id,
+        (nota) => nota.id_list == id,
       );
     }
     render(datosFiltrados);
@@ -362,7 +374,7 @@ function marcarBotonSeleccionado() {
     btnNoList.classList.add("btnActive");
   } else {
     const xd = btnListsAll.querySelector(`[data-id="${activeButton}"]`);
-    xd.classList.add("btnActive");
+    if (xd) xd.classList.add("btnActive");
   }
 }
 
@@ -417,6 +429,7 @@ async function initializeData() {
 
   } catch (error) {
     createToast('error', error)
+    console.log(error)
   }
 }
 

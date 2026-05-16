@@ -3,22 +3,22 @@
 let notes = [
   {
     "id": 1,
-    "list_id": 1,
+    "id_list": 1,
     "content": "nota en A"
   },
   {
     "id": 2,
-    "list_id": 2,
+    "id_list": 2,
     "content": "nota en B"
   },
   {
     "id": 3,
-    "list_id": 2,
+    "id_list": 2,
     "content": "nota en BBBB"
   },
   {
     "id": 4,
-    "list_id": null,
+    "id_list": null,
     "content": "nota suelta"
   }
 ]
@@ -130,7 +130,7 @@ export async function deleteList(idList) {
   }
 
   // tambien borramos sus notas asociadas
-  notes = notes.filter(note => note.list_id != idList);
+  notes = notes.filter(note => note.id_list != idList);
 
 
 }
